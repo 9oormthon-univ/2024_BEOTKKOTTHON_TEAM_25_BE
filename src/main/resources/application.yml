@@ -32,18 +32,18 @@ spring:
           auto: update
         default_batch_fetch_size: 1000
 # S3
-#cloud:
-#  aws:
-#    s3:
-#      bucket:
-#    credentials:
-#      access-key: ${S3_ACCESS_KEY}
-#      secret-key: ${S3_SECRET_KEY}
-#    region:
-#      static: ${REGION}
-#      auto: false
-#    stack:
-#      auto: false
+cloud:
+  aws:
+    s3:
+      bucket:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ${REGION}
+      auto: false
+    stack:
+      auto: false
 #jwt
 jwt:
   secret: ${JWT_SECRET_KEY}
@@ -77,19 +77,19 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
-## S3
-#cloud:
-#  aws:
-#    s3:
-#      bucket: avab-bucket
-#    credentials:
-#      access-key: ${S3_ACCESS_KEY}
-#      secret-key: ${S3_SECRET_KEY}
-#    region:
-#      static: ${REGION}
-#      auto: false
-#    stack:
-#      auto: false
+# S3
+cloud:
+  aws:
+    s3:
+      bucket: avab-bucket
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    region:
+      static: ${REGION}
+      auto: false
+    stack:
+      auto: false
 #jwt
 jwt:
   secret: ${JWT_SECRET_KEY}
