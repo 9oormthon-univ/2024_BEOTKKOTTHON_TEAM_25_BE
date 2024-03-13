@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'com.goormthonuniv'
@@ -20,6 +21,22 @@ configurations {
 repositories {
     mavenCentral()
 }
+
+spotless {
+    java {
+        // Google Java 포맷 적용
+        googleJavaFormat()
+        // 아래 순서로 import문 정렬
+        importOrder('java', 'javax', 'jakarta', 'org', 'com')
+        // 사용하지 않는 import 제거
+        removeUnusedImports()
+        // 각 라인 끝에 있는 공백을 제거
+        trimTrailingWhitespace()
+        // 파일 끝에 새로운 라인 추가
+        endWithNewline()
+    }
+}
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -49,4 +66,14 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('compileJava') {
+    dependsOn 'spotlessApply'
+    dependsOn 'addGitHooks'
+}
+
+tasks.register('addGitHooks', Copy) {
+    from './script/pre-commit'
+    into './.git/hooks'
 }

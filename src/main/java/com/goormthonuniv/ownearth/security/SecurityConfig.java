@@ -1,7 +1,5 @@
 package com.goormthonuniv.ownearth.security;
 
-import com.goormthonuniv.ownearth.security.filter.JwtRequestFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,38 +10,37 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.goormthonuniv.ownearth.security.filter.JwtRequestFilter;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtRequestFilter jwtRequestFilter;
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.formLogin(AbstractHttpConfigurer::disable);
-        http.httpBasic(AbstractHttpConfigurer::disable);
+  private final JwtRequestFilter jwtRequestFilter;
 
-        http.headers(
-            headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.formLogin(AbstractHttpConfigurer::disable);
+    http.httpBasic(AbstractHttpConfigurer::disable);
 
-        http.sessionManagement(
-            sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
-//        http.exceptionHandling(
-//            (configurer ->
-//                configurer
-//                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                    .accessDeniedHandler(jwtAccessDeniedHandler)));
+    http.sessionManagement(
+        sessionManagement ->
+            sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.authorizeHttpRequests(
-            (authorize) ->
-                authorize
-                    .anyRequest()
-                        .permitAll()
-        );
+    //        http.exceptionHandling(
+    //            (configurer ->
+    //                configurer
+    //                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+    //                    .accessDeniedHandler(jwtAccessDeniedHandler)));
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    http.authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll());
 
-        return http.build();
-    }
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+  }
 }
