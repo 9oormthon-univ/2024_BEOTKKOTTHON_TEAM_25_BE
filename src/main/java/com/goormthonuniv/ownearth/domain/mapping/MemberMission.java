@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 
 import org.joda.time.DateTime;
 
-import com.goormthonuniv.ownearth.domain.Member;
 import com.goormthonuniv.ownearth.domain.Mission;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
+import com.goormthonuniv.ownearth.domain.member.Member;
 
 import lombok.*;
 

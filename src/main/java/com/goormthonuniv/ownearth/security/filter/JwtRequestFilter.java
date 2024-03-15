@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.goormthonuniv.ownearth.exception.AuthException;
+import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
+import com.goormthonuniv.ownearth.exception.MemberException;
 import com.goormthonuniv.ownearth.security.provider.JwtAuthProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -44,10 +47,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                   userDetails, "", userDetails.getAuthorities());
           SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } else {
-          throw new RuntimeException(); // TODO: 예외 클래스로 치환할 것
+          throw new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND);
         }
       } else {
-        throw new RuntimeException(); // TODO: 예외 클래스로 치환할 것
+        throw new AuthException(GlobalErrorCode.INVALID_TOKEN);
       }
     }
     filterChain.doFilter(request, response);

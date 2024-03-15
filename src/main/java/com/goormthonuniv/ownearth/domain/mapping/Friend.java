@@ -2,9 +2,9 @@ package com.goormthonuniv.ownearth.domain.mapping;
 
 import jakarta.persistence.*;
 
-import com.goormthonuniv.ownearth.domain.Member;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
 import com.goormthonuniv.ownearth.domain.enums.FriendStatus;
+import com.goormthonuniv.ownearth.domain.member.Member;
 
 import lombok.*;
 

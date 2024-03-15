@@ -9,6 +9,9 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.goormthonuniv.ownearth.exception.AuthException;
+import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -71,12 +74,12 @@ public class JwtAuthProvider {
       Date expiredDate = claims.getBody().getExpiration();
       return expiredDate.after(new Date());
     } catch (ExpiredJwtException e) {
-      throw new RuntimeException(); // TODO: 예외 클래스 구현되면 치환할 것ㅋ
+      throw new AuthException(GlobalErrorCode.TOKEN_EXPIRED);
     } catch (SecurityException
         | MalformedJwtException
         | UnsupportedJwtException
         | IllegalArgumentException e) {
-      throw new RuntimeException(); // TODO: 예외 클래스 구현되면 조치할 것
+      throw new AuthException(GlobalErrorCode.INVALID_TOKEN);
     }
   }
 }
