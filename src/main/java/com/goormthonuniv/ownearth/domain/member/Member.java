@@ -1,4 +1,4 @@
-package com.goormthonuniv.ownearth.domain;
+package com.goormthonuniv.ownearth.domain.member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,8 @@ public class Member extends BaseEntity {
   private String email;
 
   @Column(nullable = false)
-  private String password;
+  @Embedded
+  private Password password;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, columnDefinition = "VARCHAR(10)")
