@@ -47,7 +47,7 @@ jib {
         tags = ["latest"]
         auth {
             username = 'teamownearth'
-            password = "ownearth1234"
+            password = System.getenv('DOCKERHUB_PASSWORD') ?: ''
         }
     }
     container {
