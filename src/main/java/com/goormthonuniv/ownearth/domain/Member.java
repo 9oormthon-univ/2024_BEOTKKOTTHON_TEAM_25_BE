@@ -43,10 +43,10 @@ public class Member extends BaseEntity {
 
   @Builder.Default private Integer monthlyPoint = 0;
 
-  @OneToMany(mappedBy = "member_id", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
   private List<MemberItem> memberItems = new ArrayList<>();
 
-  @OneToMany(mappedBy = "member_id", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
   private List<MemberMission> memberMissions = new ArrayList<>();
 
   @OneToMany(mappedBy = "aMember", cascade = CascadeType.ALL)

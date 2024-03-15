@@ -31,6 +31,6 @@ public class Item {
   @Column(nullable = false, columnDefinition = "VARCHAR(10)")
   private ItemCategory itemCategory;
 
-  @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
   private List<MemberItem> memberItems = new ArrayList<>();
 }
