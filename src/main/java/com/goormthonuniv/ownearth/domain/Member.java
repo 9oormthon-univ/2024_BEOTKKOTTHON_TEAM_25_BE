@@ -50,9 +50,9 @@ public class Member extends BaseEntity {
     private List<MemberMission> memberMissions = new ArrayList<>();
 
     @OneToMany(mappedBy = "aMember", cascade = CascadeType.ALL)
-    private List<Friend> afriends = new ArrayList<>();
+    private List<Friend> aFriends = new ArrayList<>();
 
     @OneToMany(mappedBy = "bMember", cascade = CascadeType.ALL)
-    private List<Friend> bfriends = new ArrayList<>();
+    private List<Friend> bFriends = new ArrayList<>();
 
 }
