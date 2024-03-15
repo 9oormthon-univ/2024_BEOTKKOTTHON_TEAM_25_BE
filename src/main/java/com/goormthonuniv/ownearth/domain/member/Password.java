@@ -8,9 +8,11 @@ import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Password {
   private static final String PASSWORD_REGEX =
       "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#%^&*()_+-=\\[\\]{}|;':\",./<>?~`\\\\])[A-Za-z\\d!@#%^&*()_+\\-=\\[\\]{}|;':\",./<>?~`\\\\]{9,16}";
