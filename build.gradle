@@ -2,7 +2,8 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'com.diffplug.spotless' version '6.23.3'
+    id 'com.diffplug.spotless' version '6.23.3' // spotless
+    id 'com.google.cloud.tools.jib' version '3.4.1' // jib
 }
 
 group = 'com.goormthonuniv'
@@ -34,6 +35,25 @@ spotless {
         trimTrailingWhitespace()
         // 파일 끝에 새로운 라인 추가
         endWithNewline()
+    }
+}
+
+jib {
+    from {
+        image = "openjdk:17-alpine"
+    }
+    to {
+        image = "teamownearth/api"
+        tags = ["latest"]
+        auth {
+            username = 'teamownearth'
+            password = "ownearth1234"
+        }
+    }
+    container {
+        jvmFlags = ["-Xms128m", "-Xmx128m", "-Dspring.profiles.active=dev", "-Dfile.encoding=UTF-8"]
+        ports = ["8080"]
+        allowInsecureRegistries = true
     }
 }
 
@@ -76,4 +96,7 @@ tasks.named('compileJava') {
 tasks.register('addGitHooks', Copy) {
     from './script/pre-commit'
     into './.git/hooks'
+    filePermissions {
+        unix('r-xr-xr-x')
+    }
 }

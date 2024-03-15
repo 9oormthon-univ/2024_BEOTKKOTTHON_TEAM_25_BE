@@ -1,11 +1,14 @@
 package com.goormthonuniv.ownearth.domain.mapping;
 
+import jakarta.persistence.*;
+
+import org.joda.time.DateTime;
+
 import com.goormthonuniv.ownearth.domain.Member;
 import com.goormthonuniv.ownearth.domain.Mission;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
-import jakarta.persistence.*;
+
 import lombok.*;
-import org.joda.time.DateTime;
 
 @Entity
 @Getter
@@ -14,24 +17,23 @@ import org.joda.time.DateTime;
 @Builder
 public class MemberMission extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false)
-    private Boolean isCompleted;
+  @Column(nullable = false)
+  private Boolean isCompleted;
 
-    @Column(nullable = false)
-    private String imageLink;
+  @Column(nullable = false)
+  private String imageLink;
 
-    private DateTime completedAt;
+  private DateTime completedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_id")
-    private Mission mission;
-
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "mission_id")
+  private Mission mission;
 }

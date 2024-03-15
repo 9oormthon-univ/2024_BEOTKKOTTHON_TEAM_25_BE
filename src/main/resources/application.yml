@@ -35,7 +35,7 @@ spring:
 cloud:
   aws:
     s3:
-      bucket:
+      bucket: ownearth-bucket
     credentials:
       access-key: ${S3_ACCESS_KEY}
       secret-key: ${S3_SECRET_KEY}
