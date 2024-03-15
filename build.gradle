@@ -96,15 +96,7 @@ tasks.named('compileJava') {
 tasks.register('addGitHooks', Copy) {
     from './script/pre-commit'
     into './.git/hooks'
-
-    def os = System.getProperty('os.name').toLowerCase()
-    if (os.contains('windows')) {
-        exec {
-            commandLine 'icacls', '.\\.git\\hooks\\', '/grant', 'Everyone:(OI)(CI)(RX)'
-        }
-    } else {
-        exec {
-            commandLine 'chmod', '-R', '+x', './.git/hooks/'
-        }
+    filePermissions {
+        unix('r-xr-xr-x')
     }
 }
