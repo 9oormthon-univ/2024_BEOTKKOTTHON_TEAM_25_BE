@@ -4,13 +4,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.goormthonuniv.ownearth.security.filter.JwtAuthExceptionHandlingFilter;
 import com.goormthonuniv.ownearth.security.filter.JwtRequestFilter;
+import com.goormthonuniv.ownearth.security.handler.JwtAccessDeniedHandler;
+import com.goormthonuniv.ownearth.security.handler.JwtAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +22,18 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtRequestFilter jwtRequestFilter;
+  private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    return web ->
+        web.ignoring()
+            .requestMatchers(
+                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/health");
+  }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,15 +46,16 @@ public class SecurityConfig {
         sessionManagement ->
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-    //        http.exceptionHandling(
-    //            (configurer ->
-    //                configurer
-    //                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-    //                    .accessDeniedHandler(jwtAccessDeniedHandler)));
+    http.exceptionHandling(
+        (configurer ->
+            configurer
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)));
 
-    http.authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll());
+    http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
 
-    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterAfter(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
 
     return http.build();
   }
