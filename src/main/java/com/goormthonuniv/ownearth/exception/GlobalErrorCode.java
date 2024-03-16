@@ -36,7 +36,12 @@ public enum GlobalErrorCode {
   BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하는 북마크가 없습니다."),
 
   // 409 CONFLICT : Resource 를 찾을 수 없음
-  DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 이메일이 존재합니다.");
+  DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 이메일이 존재합니다."),
+
+  // S3
+  S3_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S3 명령 수행에 실패했습니다."),
+  S3_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "S3에 해당 파일이 없습니다."),
+  INVALID_FILE(HttpStatus.UNPROCESSABLE_ENTITY, "처리할 수 없는 파일입니다.");
 
   private final HttpStatus httpStatus;
   private final String message;
