@@ -27,6 +27,8 @@ public class SecurityConfig {
   private final JwtRequestFilter jwtRequestFilter;
   private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
 
+  private final String[] allowedUrls = {"/member/signup"};
+
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return web ->
@@ -39,6 +41,7 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.formLogin(AbstractHttpConfigurer::disable);
     http.httpBasic(AbstractHttpConfigurer::disable);
+    http.csrf(AbstractHttpConfigurer::disable);
 
     http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
@@ -54,7 +57,7 @@ public class SecurityConfig {
 
     http.authorizeHttpRequests(
         (authorize) ->
-            authorize.requestMatchers("/member/signup").permitAll().anyRequest().authenticated());
+            authorize.requestMatchers(allowedUrls).permitAll().anyRequest().authenticated());
 
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAfter(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
