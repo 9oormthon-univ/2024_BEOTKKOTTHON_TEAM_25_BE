@@ -32,13 +32,14 @@ public class SecurityConfig {
     return web ->
         web.ignoring()
             .requestMatchers(
-                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/health");
+                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/health", "/error");
   }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.formLogin(AbstractHttpConfigurer::disable);
     http.httpBasic(AbstractHttpConfigurer::disable);
+    http.csrf(AbstractHttpConfigurer::disable);
 
     http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
