@@ -32,7 +32,11 @@ public class SecurityConfig {
     return web ->
         web.ignoring()
             .requestMatchers(
-                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/health");
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/v3/api-docs/**",
+                "/health",
+                "/member/signup");
   }
 
   @Bean
