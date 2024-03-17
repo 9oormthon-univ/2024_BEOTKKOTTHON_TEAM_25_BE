@@ -32,11 +32,7 @@ public class SecurityConfig {
     return web ->
         web.ignoring()
             .requestMatchers(
-                "/swagger-ui/**",
-                "/swagger-resources/**",
-                "/v3/api-docs/**",
-                "/health",
-                "/member/signup");
+                "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/health");
   }
 
   @Bean
@@ -56,7 +52,9 @@ public class SecurityConfig {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)));
 
-    http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated());
+    http.authorizeHttpRequests(
+        (authorize) ->
+            authorize.requestMatchers("/member/signup").permitAll().anyRequest().authenticated());
 
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterAfter(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);

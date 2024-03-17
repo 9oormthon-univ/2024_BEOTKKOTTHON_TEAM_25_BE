@@ -1,11 +1,10 @@
 package com.goormthonuniv.ownearth.service.impl;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.GlobalException;
@@ -22,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberCommandServiceImpl implements MemberCommandService {
 
   private final MemberRepository memberRepository;
+  private final MemberConverter memberConverter;
 
   @Override
   public Member signUpMember(SignUpMemberRequest request) {
@@ -33,20 +33,6 @@ public class MemberCommandServiceImpl implements MemberCommandService {
               throw new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL);
             });
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    log.info(request.getPassword());
-    log.info(Password.isPasswordValid(request.getPassword()).toString());
-    log.info(Password.encrypt(request.getPassword(), encoder).toString());
-
-    Member member =
-        Member.builder()
-            .email(request.getEmail())
-            .password(Password.encrypt(request.getPassword(), encoder))
-            .name(request.getName())
-            .earthName(request.getEarthName())
-            .build();
-
-    return memberRepository.save(member);
+    return memberRepository.save(memberConverter.toMember(request));
   }
 }
