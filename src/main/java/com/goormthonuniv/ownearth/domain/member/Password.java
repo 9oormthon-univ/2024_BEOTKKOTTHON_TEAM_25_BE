@@ -2,22 +2,28 @@ package com.goormthonuniv.ownearth.domain.member;
 
 import java.util.regex.Pattern;
 
+import jakarta.persistence.Embeddable;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
+@Embeddable
 public class Password {
   private static final String PASSWORD_REGEX =
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#%^&*()_+-=\\[\\]{}|;':\",./<>?~`\\\\])[A-Za-z\\d!@#%^&*()_+\\-=\\[\\]{}|;':\",./<>?~`\\\\]{9,16}";
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+-=\\[\\]{}|;':\",./<>?~`\\\\])[A-Za-z\\d!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?~`\\\\]{9,16}";
 
-  private final String encryptedPassword;
+  private Password(String encryptedPassword) {
+    this.encryptedPassword = encryptedPassword;
+  }
+
+  private String encryptedPassword;
 
   public static Password encrypt(String plainPassword, BCryptPasswordEncoder encoder) {
     if (!isPasswordValid(plainPassword)) {

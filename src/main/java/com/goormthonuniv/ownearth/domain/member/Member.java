@@ -27,7 +27,7 @@ public class Member extends BaseEntity {
   @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String email;
 
   @Column(nullable = false)
@@ -35,9 +35,10 @@ public class Member extends BaseEntity {
   private Password password;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false, columnDefinition = "VARCHAR(10)")
+  @Column(nullable = true, columnDefinition = "VARCHAR(10)")
   private SocialType socialType;
 
+  @Column(nullable = false)
   private String earthName;
 
   @Builder.Default private Integer point = 0;
