@@ -49,11 +49,17 @@ jwt:
   secret: ${JWT_SECRET_KEY}
   access-token-validity: ${JWT_ACCESS_TOKEN_TIME}
   refresh-token-validity: ${JWT_REFRESH_TOKEN_TIME}
+#openai
+openai:
+  api-key: ${OPENAI_API_KEY}
 ##kakao
 #kakao:
 #  auth:
 #    client: ${CLIENT_ID}
 #    redirect-uri: ${REDIRECT_URI}
+logging:
+  level:
+    com.goormthonuniv.ownearth.feign.openai.service.OpenAiClient: DEBUG
 ---
 # Dev Profile
 spring:
@@ -81,7 +87,7 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: avab-bucket
+      bucket: ownearth-bucket
     credentials:
       access-key: ${S3_ACCESS_KEY}
       secret-key: ${S3_SECRET_KEY}
@@ -95,6 +101,9 @@ jwt:
   secret: ${JWT_SECRET_KEY}
   access-token-validity: ${JWT_ACCESS_TOKEN_TIME}
   refresh-token-validity: ${JWT_REFRESH_TOKEN_TIME}
+#openai
+openai:
+  api-key: ${OPENAI_API_KEY}
 ##kakao
 #kakao:
 #  auth:
