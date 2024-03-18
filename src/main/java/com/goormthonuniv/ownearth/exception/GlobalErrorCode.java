@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum GlobalErrorCode {
+  CREATED(HttpStatus.CREATED, "요청 성공 및 리소스 생성됨"),
+
   //  Member
   // 400 BAD_REQUEST - 잘못된 요청
   NOT_VALID_EMAIL(HttpStatus.BAD_REQUEST, "유효하지 않은 이메일 입니다."),
@@ -41,7 +43,12 @@ public enum GlobalErrorCode {
   // S3
   S3_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S3 명령 수행에 실패했습니다."),
   S3_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "S3에 해당 파일이 없습니다."),
-  INVALID_FILE(HttpStatus.UNPROCESSABLE_ENTITY, "처리할 수 없는 파일입니다.");
+  INVALID_FILE(HttpStatus.UNPROCESSABLE_ENTITY, "처리할 수 없는 파일입니다."),
+
+  // Mission
+  MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 미션이 존재하지 않습니다."),
+  MISSION_IMAGE_ANALYSIS_FAILED(HttpStatus.BAD_REQUEST, "미션 이미지 분석에 실패했습니다. 이미지가 유효하지 않은 것 같습니다."),
+  MISSION_ALREADY_ACCOMPLISHED(HttpStatus.BAD_REQUEST, "이미 완료된 미션입니다.");
 
   private final HttpStatus httpStatus;
   private final String message;

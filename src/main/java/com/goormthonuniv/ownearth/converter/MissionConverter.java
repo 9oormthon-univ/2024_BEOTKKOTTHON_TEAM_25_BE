@@ -3,7 +3,8 @@ package com.goormthonuniv.ownearth.converter;
 import org.springframework.stereotype.Component;
 
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
-import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.*;
+import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.GetOrAssignMemberMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.MissionResultDto;
 
 @Component
 public class MissionConverter {
@@ -12,5 +13,9 @@ public class MissionConverter {
     return GetOrAssignMemberMissionResponse.builder()
         .content(memberMission.getMission().getContent())
         .build();
+  }
+
+  public static MissionResultDto toMissionResultDto(MemberMission memberMission) {
+    return MissionResultDto.builder().isCompleted(memberMission.getIsCompleted()).build();
   }
 }
