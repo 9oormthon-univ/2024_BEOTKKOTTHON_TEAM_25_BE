@@ -29,9 +29,9 @@ public class MissionController {
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @PostMapping("/todaymission")
+  @PostMapping("/today")
   public BaseResponse<GetOrAssignMemberMissionResponse> getOrAssignMemberMission(
-      @Parameter(name = "member", hidden = true) @AuthMember Member member) {
+      @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(
         missionConverter.toGetOrAssignMemberMission(
             missionCommandService.getOrAssignMission(member)));
