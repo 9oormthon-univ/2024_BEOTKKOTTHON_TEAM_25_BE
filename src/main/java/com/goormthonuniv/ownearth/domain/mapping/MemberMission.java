@@ -25,7 +25,7 @@ public class MemberMission extends BaseEntity {
   @Builder.Default
   private Boolean isCompleted = false;
 
-  @Column(nullable = true, length = 300)
+  @Column(length = 300)
   private String imageUrl;
 
   private DateTime completedAt;

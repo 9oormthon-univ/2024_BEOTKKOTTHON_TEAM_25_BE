@@ -2,7 +2,7 @@ package com.goormthonuniv.ownearth.dto.response;
 
 import lombok.*;
 
-public class MemberMissionResponseDto {
+public class MissionResponseDto {
 
   @Getter
   @Builder
