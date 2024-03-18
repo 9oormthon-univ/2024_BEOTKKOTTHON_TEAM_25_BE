@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -27,7 +28,7 @@ public class SecurityConfig {
   private final JwtRequestFilter jwtRequestFilter;
   private final JwtAuthExceptionHandlingFilter jwtAuthExceptionHandlingFilter;
 
-  private final String[] allowedUrls = {"/member/signup"};
+  private final String[] allowedUrls = {"/member/signup", "/member/login"};
 
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
@@ -63,5 +64,10 @@ public class SecurityConfig {
         .addFilterAfter(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
 
     return http.build();
+  }
+
+  @Bean
+  public BCryptPasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 }

@@ -16,4 +16,14 @@ public class MemberResponseDto {
     String name;
     String earthName;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class LoginMemberResponse {
+    Long memberId;
+    String accessToken;
+    String refreshToken;
+  }
 }

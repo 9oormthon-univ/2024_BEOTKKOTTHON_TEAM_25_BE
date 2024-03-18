@@ -21,10 +21,10 @@ public class MemberDetailsService implements UserDetailsService {
   private final MemberRepository memberRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     Member member =
         memberRepository
-            .findById(Long.parseLong(memberId))
+            .findByEmail(email)
             .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND));
 
     return new MemberDetails(member);

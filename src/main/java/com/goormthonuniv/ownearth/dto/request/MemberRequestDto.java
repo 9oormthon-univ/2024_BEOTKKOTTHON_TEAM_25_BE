@@ -11,4 +11,10 @@ public class MemberRequestDto {
     String name;
     String earthName;
   }
+
+  @Getter
+  public static class LoginMemberRequest {
+    String email;
+    String password;
+  }
 }

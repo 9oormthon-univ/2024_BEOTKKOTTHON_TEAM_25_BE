@@ -31,4 +31,13 @@ public class MemberConverter {
         .earthName(request.getEarthName())
         .build();
   }
+
+  public static LoginMemberResponse toLoginMember(
+      Long memberId, String accessToken, String refreshToken) {
+    return LoginMemberResponse.builder()
+        .memberId(memberId)
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
+        .build();
+  }
 }
