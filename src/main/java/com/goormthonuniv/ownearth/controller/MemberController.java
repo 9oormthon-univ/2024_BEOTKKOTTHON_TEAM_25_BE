@@ -14,11 +14,13 @@ import com.goormthonuniv.ownearth.service.MemberCommandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/members")
+@Tag(name = "😎 Member", description = "사용자 관련 API")
 public class MemberController {
 
   private final MemberCommandService memberCommandService;
