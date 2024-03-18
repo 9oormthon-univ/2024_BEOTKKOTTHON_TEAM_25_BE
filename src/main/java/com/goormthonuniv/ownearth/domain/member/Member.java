@@ -45,7 +45,7 @@ public class Member extends BaseEntity {
 
   @Builder.Default private Integer monthlyPoint = 0;
 
-  @Column(nullable = false, length = 200)
+  @Column(nullable = true, length = 200)
   private String refreshToken;
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

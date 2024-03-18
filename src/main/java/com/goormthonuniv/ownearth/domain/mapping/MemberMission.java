@@ -22,9 +22,10 @@ public class MemberMission extends BaseEntity {
   private Long id;
 
   @Column(nullable = false)
-  private Boolean isCompleted;
+  @Builder.Default
+  private Boolean isCompleted = false;
 
-  @Column(nullable = false, length = 300)
+  @Column(nullable = true, length = 300)
   private String imageUrl;
 
   private DateTime completedAt;
