@@ -9,7 +9,7 @@ import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
-import com.goormthonuniv.ownearth.exception.GlobalException;
+import com.goormthonuniv.ownearth.exception.MemberException;
 import com.goormthonuniv.ownearth.repository.MemberRepository;
 import com.goormthonuniv.ownearth.security.provider.JwtAuthProvider;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
@@ -35,7 +35,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         .findByEmail(request.getEmail())
         .ifPresent(
             message -> {
-              throw new GlobalException(GlobalErrorCode.DUPLICATE_EMAIL);
+              throw new MemberException(GlobalErrorCode.DUPLICATE_EMAIL);
             });
 
     return memberRepository.save(memberConverter.toMember(request));
@@ -49,10 +49,10 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     Member member =
         memberRepository
             .findByEmail(request.getEmail())
-            .orElseThrow(() -> new GlobalException(GlobalErrorCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND));
 
     if (!(member.getPassword().isSamePassword(request.getPassword(), bCryptPasswordEncoder))) {
-      throw new GlobalException(GlobalErrorCode.PASSWORD_MISMATCH);
+      throw new MemberException(GlobalErrorCode.PASSWORD_MISMATCH);
     }
 
     String accessToken = jwtAuthProvider.generateAccessToken(member.getId());
