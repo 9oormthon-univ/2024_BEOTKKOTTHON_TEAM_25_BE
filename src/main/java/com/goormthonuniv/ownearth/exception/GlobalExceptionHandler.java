@@ -14,6 +14,6 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = {GlobalException.class})
   protected BaseResponse handleCustomException(GlobalException e) {
     log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-    return BaseResponse.onFailure(e.getErrorCode(), "");
+    return BaseResponse.onFailure(e.getErrorCode(), null);
   }
 }
