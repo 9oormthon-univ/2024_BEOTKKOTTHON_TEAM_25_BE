@@ -1,8 +1,6 @@
 package com.goormthonuniv.ownearth.service.impl;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,20 +55,11 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     if (!(member.getPassword().isSamePassword(request.getPassword(), bCryptPasswordEncoder))) {
       throw new GlobalException(GlobalErrorCode.PASSWORD_MISMATCH);
-    } else {
-
-      UsernamePasswordAuthenticationToken authenticationToken =
-          new UsernamePasswordAuthenticationToken(email, request.getPassword());
-
-      Authentication authentication =
-          authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-      String authenticatedUserId = authentication.getName();
-
-      String accessToken = jwtAuthProvider.generateAccessToken(member.getId());
-      String refreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
-
-      return memberConverter.toLoginMember(member.getId(), accessToken, refreshToken);
     }
+
+    String accessToken = jwtAuthProvider.generateAccessToken(member.getId());
+    String refreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
+
+    return memberConverter.toLoginMember(member.getId(), accessToken, refreshToken);
   }
 }

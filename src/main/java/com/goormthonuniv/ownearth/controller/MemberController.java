@@ -34,14 +34,6 @@ public class MemberController {
 
   @PostMapping("/login")
   public ApiResponse<LoginMemberResponse> loginMember(@RequestBody LoginMemberRequest request) {
-    LoginMemberResponse a = memberService.login(request);
-    try {
-      return ApiResponse.onSuccess(
-          MemberConverter.toLoginMember(a.getMemberId(), a.getAccessToken(), a.getRefreshToken()));
-    } catch (GlobalException e) {
-      return ApiResponse.onFailure(
-          e.getErrorCode(),
-          MemberConverter.toLoginMember(a.getMemberId(), a.getAccessToken(), a.getRefreshToken()));
-    }
+    return ApiResponse.onSuccess(memberService.login(request));
   }
 }
