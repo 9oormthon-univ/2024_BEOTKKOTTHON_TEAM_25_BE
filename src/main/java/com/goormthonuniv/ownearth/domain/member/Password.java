@@ -2,6 +2,7 @@ package com.goormthonuniv.ownearth.domain.member;
 
 import java.util.regex.Pattern;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,20 +10,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Embeddable
 public class Password {
   private static final String PASSWORD_REGEX =
       "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+-=\\[\\]{}|;':\",./<>?~`\\\\])[A-Za-z\\d!@#$%^&*()_+\\-=\\[\\]{}|;':\",./<>?~`\\\\]{9,16}";
 
-  private Password(String encryptedPassword) {
-    this.encryptedPassword = encryptedPassword;
-  }
-
+  @Column(name = "password", nullable = false, columnDefinition = "TEXT")
   private String encryptedPassword;
 
   public static Password encrypt(String plainPassword, BCryptPasswordEncoder encoder) {

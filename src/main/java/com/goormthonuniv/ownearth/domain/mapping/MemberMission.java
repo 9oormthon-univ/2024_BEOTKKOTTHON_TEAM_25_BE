@@ -24,8 +24,8 @@ public class MemberMission extends BaseEntity {
   @Column(nullable = false)
   private Boolean isCompleted;
 
-  @Column(nullable = false)
-  private String imageLink;
+  @Column(nullable = false, length = 300)
+  private String imageUrl;
 
   private DateTime completedAt;
 

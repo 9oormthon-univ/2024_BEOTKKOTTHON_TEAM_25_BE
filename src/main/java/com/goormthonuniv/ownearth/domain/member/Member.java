@@ -24,10 +24,10 @@ public class Member extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 10)
   private String name;
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false, unique = true, length = 100)
   private String email;
 
   @Column(nullable = false)
@@ -35,15 +35,18 @@ public class Member extends BaseEntity {
   private Password password;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = true, columnDefinition = "VARCHAR(10)")
+  @Column(columnDefinition = "VARCHAR(10)")
   private SocialType socialType;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 30)
   private String earthName;
 
   @Builder.Default private Integer point = 0;
 
   @Builder.Default private Integer monthlyPoint = 0;
+
+  @Column(nullable = false, length = 200)
+  private String refreshToken;
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
   private List<MemberItem> memberItems = new ArrayList<>();
@@ -56,4 +59,8 @@ public class Member extends BaseEntity {
 
   @OneToMany(mappedBy = "bMember", cascade = CascadeType.ALL)
   private List<Friend> bFriends = new ArrayList<>();
+
+  public void updateRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
 }

@@ -6,4 +6,6 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
 
 public interface MemberCommandService {
   Member signUpMember(SignUpMemberRequest request);
+
+  LoginMemberResponse login(LoginMemberRequest request);
 }

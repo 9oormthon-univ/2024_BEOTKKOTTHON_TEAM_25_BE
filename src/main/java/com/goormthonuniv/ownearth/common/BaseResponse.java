@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
-public class ApiResponse<T> {
+public class BaseResponse<T> {
 
   @JsonProperty("isSuccess")
   private Boolean isSuccess;
@@ -23,13 +23,13 @@ public class ApiResponse<T> {
   private T data;
 
   // 성공한 경우 응답 생성
-  public static <T> ApiResponse<T> onSuccess(T data) {
-    return new ApiResponse<>(true, "200", "요청에 성공하였습니다.", data);
+  public static <T> BaseResponse<T> onSuccess(T data) {
+    return new BaseResponse<>(true, "200", "요청에 성공하였습니다.", data);
   }
 
   // 실패한 경우 응답 생성
-  public static <T> ApiResponse<T> onFailure(GlobalErrorCode code, T data) {
-    return new ApiResponse<>(
+  public static <T> BaseResponse<T> onFailure(GlobalErrorCode code, T data) {
+    return new BaseResponse<>(
         false, String.valueOf(code.getHttpStatus().value()), code.getMessage(), data);
   }
 }

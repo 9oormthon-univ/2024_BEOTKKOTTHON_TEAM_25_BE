@@ -1,7 +1,5 @@
 package com.goormthonuniv.ownearth.dto.response;
 
-import com.goormthonuniv.ownearth.domain.member.Password;
-
 import lombok.*;
 
 public class MemberResponseDto {
@@ -11,9 +9,19 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class SignUpMemberResponse {
+    Long memberId;
     String email;
-    Password password;
     String name;
     String earthName;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class LoginMemberResponse {
+    Long memberId;
+    String accessToken;
+    String refreshToken;
   }
 }

@@ -11,10 +11,9 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
 @Component
 public class MemberConverter {
 
-  public static SignUpMemberResponse toSignUpMember(Member member) {
+  public static SignUpMemberResponse toSignUpMemberResponse(Member member) {
     return SignUpMemberResponse.builder()
         .email(member.getEmail())
-        .password(member.getPassword())
         .name(member.getName())
         .earthName(member.getEarthName())
         .build();
@@ -29,6 +28,15 @@ public class MemberConverter {
         .password(Password.encrypt(request.getPassword(), encoder))
         .name(request.getName())
         .earthName(request.getEarthName())
+        .build();
+  }
+
+  public static LoginMemberResponse toLoginMemberResponse(
+      Long memberId, String accessToken, String refreshToken) {
+    return LoginMemberResponse.builder()
+        .memberId(memberId)
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
         .build();
   }
 }
