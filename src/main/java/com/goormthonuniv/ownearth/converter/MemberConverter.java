@@ -32,7 +32,7 @@ public class MemberConverter {
         .build();
   }
 
-  public static LoginMemberResponse toLoginMember(
+  public static LoginMemberResponse toLoginMemberResponse(
       Long memberId, String accessToken, String refreshToken) {
     return LoginMemberResponse.builder()
         .memberId(memberId)

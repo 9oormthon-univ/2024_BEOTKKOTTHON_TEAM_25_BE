@@ -1,6 +1,5 @@
 package com.goormthonuniv.ownearth.service.impl;
 
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberCommandServiceImpl implements MemberCommandService {
 
   private final MemberRepository memberRepository;
-  private final AuthenticationManagerBuilder authenticationManagerBuilder;
   private final JwtAuthProvider jwtAuthProvider;
   private final MemberConverter memberConverter;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -60,6 +58,6 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     String accessToken = jwtAuthProvider.generateAccessToken(member.getId());
     String refreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
 
-    return memberConverter.toLoginMember(member.getId(), accessToken, refreshToken);
+    return memberConverter.toLoginMemberResponse(member.getId(), accessToken, refreshToken);
   }
 }
