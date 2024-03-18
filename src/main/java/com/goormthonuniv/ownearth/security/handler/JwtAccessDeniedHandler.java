@@ -11,7 +11,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormthonuniv.ownearth.common.ApiResponse;
+import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 
 @Component
@@ -26,7 +26,8 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
     response.setContentType("application/json; charset=UTF-8");
     response.setStatus(HttpStatus.FORBIDDEN.value());
 
-    ApiResponse<Object> errorResponse = ApiResponse.onFailure(GlobalErrorCode.ACCESS_DENIED, null);
+    BaseResponse<Object> errorResponse =
+        BaseResponse.onFailure(GlobalErrorCode.ACCESS_DENIED, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);

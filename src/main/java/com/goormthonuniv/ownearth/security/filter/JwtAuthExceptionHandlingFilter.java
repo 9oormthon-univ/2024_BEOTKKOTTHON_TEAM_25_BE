@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormthonuniv.ownearth.common.ApiResponse;
+import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.exception.AuthException;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 
@@ -31,7 +31,7 @@ public class JwtAuthExceptionHandlingFilter extends OncePerRequestFilter {
 
       GlobalErrorCode code = e.getErrorCode();
 
-      ApiResponse<Object> errorResponse = ApiResponse.onFailure(code, null);
+      BaseResponse<Object> errorResponse = BaseResponse.onFailure(code, null);
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.writeValue(response.getOutputStream(), errorResponse);

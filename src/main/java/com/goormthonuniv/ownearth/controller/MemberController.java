@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.goormthonuniv.ownearth.common.ApiResponse;
+import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
@@ -18,10 +18,10 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/member")
+@RequestMapping("api/v1/members")
 public class MemberController {
 
-  private final MemberCommandService memberService;
+  private final MemberCommandService memberCommandService;
 
   @Operation(summary = "회원가입 API", description = "이메일, 비밀번호를 사용해 회원가입을 진행합니다")
   @ApiResponses({
@@ -33,13 +33,14 @@ public class MemberController {
         description = "중복된 이메일이 있습니다"),
   })
   @PostMapping("/signup")
-  public ApiResponse<SignUpMemberResponse> signUpMember(@RequestBody SignUpMemberRequest request) {
+  public BaseResponse<SignUpMemberResponse> signUpMember(@RequestBody SignUpMemberRequest request) {
     try {
-      return ApiResponse.onSuccess(
-          MemberConverter.toSignUpMember(memberService.signUpMember(request)));
+      return BaseResponse.onSuccess(
+          MemberConverter.toSignUpMember(memberCommandService.signUpMember(request)));
     } catch (GlobalException e) {
-      return ApiResponse.onFailure(
-          e.getErrorCode(), MemberConverter.toSignUpMember(memberService.signUpMember(request)));
+      return BaseResponse.onFailure(
+          e.getErrorCode(),
+          MemberConverter.toSignUpMember(memberCommandService.signUpMember(request)));
     }
   }
 
@@ -56,7 +57,7 @@ public class MemberController {
         description = "비밀번호가 일치하지 않습니다"),
   })
   @PostMapping("/login")
-  public ApiResponse<LoginMemberResponse> loginMember(@RequestBody LoginMemberRequest request) {
-    return ApiResponse.onSuccess(memberService.login(request));
+  public BaseResponse<LoginMemberResponse> loginMember(@RequestBody LoginMemberRequest request) {
+    return BaseResponse.onSuccess(memberCommandService.login(request));
   }
 }

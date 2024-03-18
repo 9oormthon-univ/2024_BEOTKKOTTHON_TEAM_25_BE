@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goormthonuniv.ownearth.common.ApiResponse;
+import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 
 @Component
@@ -26,8 +26,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     response.setContentType("application/json; charset=UTF-8");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-    ApiResponse<Object> errorResponse =
-        ApiResponse.onFailure(GlobalErrorCode.AUTHENTICATION_REQUIRED, null);
+    BaseResponse<Object> errorResponse =
+        BaseResponse.onFailure(GlobalErrorCode.AUTHENTICATION_REQUIRED, null);
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.writeValue(response.getOutputStream(), errorResponse);
