@@ -27,6 +27,11 @@ public class BaseResponse<T> {
     return new BaseResponse<>(true, "200", "요청에 성공하였습니다.", data);
   }
 
+  public static <T> BaseResponse<T> onSuccess(GlobalErrorCode code, T data) {
+    return new BaseResponse<>(
+        true, String.valueOf(code.getHttpStatus().value()), code.getMessage(), data);
+  }
+
   // 실패한 경우 응답 생성
   public static <T> BaseResponse<T> onFailure(GlobalErrorCode code, T data) {
     return new BaseResponse<>(

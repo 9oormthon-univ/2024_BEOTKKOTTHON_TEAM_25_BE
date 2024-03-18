@@ -1,8 +1,8 @@
 package com.goormthonuniv.ownearth.domain.mapping;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-import org.joda.time.DateTime;
+import jakarta.persistence.*;
 
 import com.goormthonuniv.ownearth.domain.Mission;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
@@ -28,7 +28,7 @@ public class MemberMission extends BaseEntity {
   @Column(length = 300)
   private String imageUrl;
 
-  private DateTime completedAt;
+  private LocalDateTime completedAt;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
@@ -37,4 +37,10 @@ public class MemberMission extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "mission_id")
   private Mission mission;
+
+  public void missionComplete(String imageUrl) {
+    this.imageUrl = imageUrl;
+    this.isCompleted = true;
+    this.completedAt = LocalDateTime.now();
+  }
 }
