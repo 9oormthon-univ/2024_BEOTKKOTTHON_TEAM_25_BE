@@ -50,13 +50,16 @@ public class MissionImageAnalysisRequestDto {
     private String url;
   }
 
-  public static MissionImageAnalysisRequestDto from(String prompt, MultipartFile image)
+  public static MissionImageAnalysisRequestDto from(String mission, MultipartFile image)
       throws IOException {
     String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
     String imageUrl = String.format("data:%s;base64,%s", image.getContentType(), base64Image);
     List<Content> contentList =
         List.of(
-            new Content("text", prompt, null),
+            new Content(
+                "text",
+                "이 이미지가 \"" + mission + "\"라는 미션을 수행하는 이미지입니까? 부가적인 설명 없이 오직 true 혹은 false로만 답하시오.",
+                null),
             new Content("image_url", null, new ImageUrl(imageUrl)));
 
     return new MissionImageAnalysisRequestDto(List.of(new Message(contentList)));
