@@ -9,10 +9,10 @@ import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
-import com.goormthonuniv.ownearth.exception.GlobalException;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
@@ -25,36 +25,17 @@ public class MemberController {
 
   @Operation(summary = "회원가입 API", description = "이메일, 비밀번호를 사용해 회원가입을 진행합니다")
   @ApiResponses({
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "COMMOM200",
-        description = "성공"),
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "CONFLICT_REQUEST409",
-        description = "중복된 이메일이 있습니다"),
+    @ApiResponse(responseCode = "200", description = "성공"),
   })
   @PostMapping("/signup")
   public BaseResponse<SignUpMemberResponse> signUpMember(@RequestBody SignUpMemberRequest request) {
-    try {
-      return BaseResponse.onSuccess(
-          MemberConverter.toSignUpMember(memberCommandService.signUpMember(request)));
-    } catch (GlobalException e) {
-      return BaseResponse.onFailure(
-          e.getErrorCode(),
-          MemberConverter.toSignUpMember(memberCommandService.signUpMember(request)));
-    }
+    return BaseResponse.onSuccess(
+        MemberConverter.toSignUpMemberResponse(memberCommandService.signUpMember(request)));
   }
 
   @Operation(summary = "로그인 API", description = "이메일, 비밀번호를 사용한 로그인을 진행합니다")
   @ApiResponses({
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "COMMMON200",
-        description = "성공"),
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "NotFound404",
-        description = "존재하니 않는 이메일입니다"),
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
-        responseCode = "BAD_REQUEST400",
-        description = "비밀번호가 일치하지 않습니다"),
+    @ApiResponse(responseCode = "200", description = "성공"),
   })
   @PostMapping("/login")
   public BaseResponse<LoginMemberResponse> loginMember(@RequestBody LoginMemberRequest request) {

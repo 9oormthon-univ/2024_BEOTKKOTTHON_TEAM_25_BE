@@ -15,17 +15,14 @@ import com.goormthonuniv.ownearth.security.provider.JwtAuthProvider;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-@Slf4j
 public class MemberCommandServiceImpl implements MemberCommandService {
 
   private final MemberRepository memberRepository;
   private final JwtAuthProvider jwtAuthProvider;
-  private final MemberConverter memberConverter;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Override
@@ -34,18 +31,15 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     memberRepository
         .findByEmail(request.getEmail())
         .ifPresent(
-            message -> {
+            member -> {
               throw new MemberException(GlobalErrorCode.DUPLICATE_EMAIL);
             });
 
-    return memberRepository.save(memberConverter.toMember(request));
+    return memberRepository.save(MemberConverter.toMember(request));
   }
 
   @Override
   public LoginMemberResponse login(LoginMemberRequest request) {
-
-    String email = request.getEmail();
-
     Member member =
         memberRepository
             .findByEmail(request.getEmail())
@@ -58,6 +52,8 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     String accessToken = jwtAuthProvider.generateAccessToken(member.getId());
     String refreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
 
-    return memberConverter.toLoginMemberResponse(member.getId(), accessToken, refreshToken);
+    member.updateRefreshToken(refreshToken);
+
+    return MemberConverter.toLoginMemberResponse(member.getId(), accessToken, refreshToken);
   }
 }
