@@ -37,7 +37,7 @@ public class MissionController {
 
   @Operation(summary = "오늘의 미션 할당/조회 API", description = "오늘의 미션이 없으면 미션을 할당하고 조회, 있다면 미션을 조회합니다")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "성공"),
+    @ApiResponse(responseCode = "201", description = "성공"),
   })
   @PostMapping("/today")
   @ResponseStatus(HttpStatus.CREATED)
@@ -67,13 +67,14 @@ public class MissionController {
 
   @Operation(summary = "미션 변경 API", description = "오늘 미션을 바꾼적이 있다면 포인트를 차감하고 아니면 무료로 미션을 변경합니다")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "성공"),
+    @ApiResponse(responseCode = "202", description = "성공"),
   })
   @PatchMapping("/mission")
-  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseStatus(HttpStatus.ACCEPTED)
   public BaseResponse<MissionResponse> changeMission(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(
+        GlobalErrorCode.UPDATED,
         missionConverter.toMissionResponse(missionCommandService.changeMission(member)));
   }
 }

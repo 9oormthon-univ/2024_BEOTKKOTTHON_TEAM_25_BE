@@ -43,7 +43,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         .findMemberMissionByMemberAndCreatedAtBetween(member, startOfDay, endOfDay)
         .orElseGet(
             () -> {
-              member.setMissionChangeCheck(true);
+              member.setIsMissionChangeable(true);
 
               MemberMission newMission =
                   MemberMission.builder()
@@ -91,7 +91,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
     return Boolean.parseBoolean(response.getChoices().get(0).getMessage().getContent());
   }
 
-  public Mission changeMission(Member member) {
+  public MemberMission changeMission(Member member) {
 
     LocalDate today = LocalDate.now();
     LocalDateTime startOfDay = today.atStartOfDay();
@@ -100,16 +100,16 @@ public class MissionCommandServiceImpl implements MissionCommandService {
     MemberMission memberMission =
         memberMissionRepository
             .findMemberMissionByMemberAndCreatedAtBetween(member, startOfDay, endOfDay)
-            .orElseThrow(() -> new MissionException(GlobalErrorCode.NOT_FOUND_MISSION));
+            .orElseThrow(() -> new MissionException(GlobalErrorCode.MISSION_NOT_FOUND));
 
-    if (member.getMissionChangeCheck()) {
-      member.setMissionChangeCheck(false);
+    if (member.getIsMissionChangeable()) {
+      member.setIsMissionChangeable(false);
       memberMission.setMission(missionRepository.findRandomMission());
     } else {
       member.decreasePoint();
       memberMission.setMission(missionRepository.findRandomMission());
     }
 
-    return memberMission.getMission();
+    return memberMission;
   }
 }

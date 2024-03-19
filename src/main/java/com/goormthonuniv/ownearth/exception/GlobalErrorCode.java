@@ -9,6 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum GlobalErrorCode {
   CREATED(HttpStatus.CREATED, "요청 성공 및 리소스 생성됨"),
+  UPDATED(HttpStatus.ACCEPTED, "요청 성공 및 리소스 수정됨"),
 
   //  Member
   // 400 BAD_REQUEST - 잘못된 요청
@@ -40,7 +41,6 @@ public enum GlobalErrorCode {
 
   // 409 CONFLICT : Resource 를 찾을 수 없음
   DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 이메일이 존재합니다."),
-  NOT_FOUND_MISSION(HttpStatus.CONFLICT, "미션이 할당되지 않았습니다."),
 
   // S3
   S3_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S3 명령 수행에 실패했습니다."),

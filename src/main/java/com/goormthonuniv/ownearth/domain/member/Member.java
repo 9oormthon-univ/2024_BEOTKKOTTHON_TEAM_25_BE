@@ -47,7 +47,7 @@ public class Member extends BaseEntity {
 
   @Builder.Default private Integer monthlyPoint = 0;
 
-  @Builder.Default private Boolean missionChangeCheck = true;
+  @Builder.Default private Boolean isMissionChangeable = true;
 
   @Column(length = 200)
   private String refreshToken;
@@ -68,8 +68,8 @@ public class Member extends BaseEntity {
     this.refreshToken = refreshToken;
   }
 
-  public void setMissionChangeCheck(Boolean missionChangeCheck) {
-    this.missionChangeCheck = missionChangeCheck;
+  public void setIsMissionChangeable(Boolean missionChangeCheck) {
+    this.isMissionChangeable = missionChangeCheck;
   }
 
   public void decreasePoint() {
