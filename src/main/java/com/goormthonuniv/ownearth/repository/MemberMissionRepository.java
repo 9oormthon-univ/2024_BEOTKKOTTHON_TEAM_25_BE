@@ -13,4 +13,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
       Member member, LocalDateTime start, LocalDateTime end);
 
   Optional<MemberMission> findByMemberAndMission_Id(Member member, Long missionId);
+
+  Integer countByMemberAndCompletedAtBetween(Member member, LocalDateTime start, LocalDateTime end);
 }
