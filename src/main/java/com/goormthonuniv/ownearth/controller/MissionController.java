@@ -2,6 +2,7 @@ package com.goormthonuniv.ownearth.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,7 @@ import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MissionConverter;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.GetOrAssignMemberMissionResponse;
-import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.MissionResultDto;
+import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.*;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.MissionCommandService;
 
@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/missions")
 public class MissionController {
   private final MissionCommandService missionCommandService;
+  private final MissionConverter missionConverter;
 
   @Operation(summary = "오늘의 미션 할당/조회 API", description = "오늘의 미션이 없으면 미션을 할당하고 조회, 있다면 미션을 조회합니다")
   @ApiResponses({
@@ -62,5 +63,17 @@ public class MissionController {
         missionCommandService.accomplishMission(member, missionId, missionImage);
     return BaseResponse.onSuccess(
         GlobalErrorCode.CREATED, MissionConverter.toMissionResultDto(memberMission));
+  }
+
+  @Operation(summary = "미션 변경 API", description = "오늘 미션을 바꾼적이 있다면 포인트를 차감하고 아니면 무료로 미션을 변경합니다")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "성공"),
+  })
+  @PatchMapping("/mission")
+  @ResponseStatus(HttpStatus.CREATED)
+  public BaseResponse<MissionResponse> changeMission(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(
+        missionConverter.toMissionResponse(missionCommandService.changeMission(member)));
   }
 }

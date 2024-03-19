@@ -19,6 +19,7 @@ public enum GlobalErrorCode {
   WRONG_EMAIL_FORM(HttpStatus.BAD_REQUEST, "잘못된 이메일 형식입니다."),
   NOT_MATCH_CODE(HttpStatus.BAD_REQUEST, "코드가 일치하지 않습니다"),
   NOT_VALID_KEYWORD(HttpStatus.BAD_REQUEST, "유효하지 않은 검색어 입니다."),
+  NOT_ENOUGH_POINTS(HttpStatus.BAD_REQUEST, "포인트가 부족합니다."),
 
   // 401 Unauthorized - 미인증
   TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰의 유효기간이 지났습니다."),
@@ -39,6 +40,7 @@ public enum GlobalErrorCode {
 
   // 409 CONFLICT : Resource 를 찾을 수 없음
   DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 이메일이 존재합니다."),
+  NOT_FOUND_MISSION(HttpStatus.CONFLICT, "미션이 할당되지 않았습니다."),
 
   // S3
   S3_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S3 명령 수행에 실패했습니다."),
