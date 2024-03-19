@@ -1,5 +1,7 @@
 package com.goormthonuniv.ownearth.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,5 +66,15 @@ public class MemberController {
     Integer completedMissionCount = memberQueryService.getMonthlyMissionStatus(member);
     return BaseResponse.onSuccess(
         MemberConverter.toMonthlyMissionStatusResponse(member, completedMissionCount));
+  }
+
+  @Operation(summary = "내 친구들 월간 미션 달성률 조회 API", description = "현재 로그인한 사용자의 친구의 월간 달성률을 조회합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping("/me/friends/missions/monthly")
+  public BaseResponse<List<MonthlyMissionStatusResponse>> getFriendsMonthlyMissionStatus(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    List<MonthlyMissionStatusResponse> response =
+        memberQueryService.getFriendsMonthlyMissionStatus(member);
+    return BaseResponse.onSuccess(response);
   }
 }
