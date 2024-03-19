@@ -1,5 +1,10 @@
 package com.goormthonuniv.ownearth.dto.response;
 
+import java.util.List;
+import java.util.Optional;
+
+import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
+
 import lombok.*;
 
 public class MemberResponseDto {
@@ -35,5 +40,16 @@ public class MemberResponseDto {
     Integer completedMissionCount;
     Integer accumulatedPoint;
     Integer completionRate;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class GetMyEarthResponse {
+    List<Long> myUsingItems;
+    String earthName;
+    Long daySinceCreation;
+    Optional<MemberMission> memberMission;
   }
 }

@@ -65,4 +65,15 @@ public class MemberController {
     return BaseResponse.onSuccess(
         MemberConverter.toMonthlyMissionStatusResponse(member, completedMissionCount));
   }
+
+  @Operation(summary = "내 지구 상태 조회 API", description = "지구 이름, 사용 아이템, 가입한 기간, 할당된 미션을 조회합니다")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "성공"),
+  })
+  @GetMapping("/")
+  @ResponseStatus(HttpStatus.OK)
+  public BaseResponse<GetMyEarthResponse> getMyEarthStatus(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(GlobalErrorCode.GOT, memberQueryService.getMyEarthStatus(member));
+  }
 }

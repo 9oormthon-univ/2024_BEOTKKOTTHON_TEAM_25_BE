@@ -1,10 +1,13 @@
 package com.goormthonuniv.ownearth.converter;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
@@ -50,6 +53,19 @@ public class MemberConverter {
         .completedMissionCount(completedMissionCount)
         .accumulatedPoint(member.getMonthlyPoint())
         .completionRate(completedMissionCount * 100 / LocalDate.now().lengthOfMonth())
+        .build();
+  }
+
+  public static GetMyEarthResponse toGetMyEarthResponse(
+      List<Long> myUsingItems,
+      String earthName,
+      Long daySinceCreation,
+      Optional<MemberMission> memberMission) {
+    return GetMyEarthResponse.builder()
+        .myUsingItems(myUsingItems)
+        .earthName(earthName)
+        .daySinceCreation(daySinceCreation)
+        .memberMission(memberMission)
         .build();
   }
 }

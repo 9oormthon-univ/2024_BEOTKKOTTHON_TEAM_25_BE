@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
 import com.goormthonuniv.ownearth.domain.enums.SocialType;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
@@ -53,9 +54,11 @@ public class Member extends BaseEntity {
   private String refreshToken;
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private List<MemberItem> memberItems = new ArrayList<>();
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private List<MemberMission> memberMissions = new ArrayList<>();
 
   @OneToMany(mappedBy = "aMember", cascade = CascadeType.ALL)

@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum GlobalErrorCode {
   CREATED(HttpStatus.CREATED, "요청 성공 및 리소스 생성됨"),
   UPDATED(HttpStatus.ACCEPTED, "요청 성공 및 리소스 수정됨"),
+  GOT(HttpStatus.OK, "요청 성공 및 리소스 조회됨"),
 
   //  Member
   // 400 BAD_REQUEST - 잘못된 요청
