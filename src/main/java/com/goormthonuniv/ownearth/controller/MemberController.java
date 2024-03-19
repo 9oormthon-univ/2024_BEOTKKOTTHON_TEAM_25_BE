@@ -1,5 +1,7 @@
 package com.goormthonuniv.ownearth.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
+import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
 import com.goormthonuniv.ownearth.service.MemberQueryService;
 
@@ -33,11 +36,13 @@ public class MemberController {
 
   @Operation(summary = "회원가입 API", description = "이메일, 비밀번호를 사용해 회원가입을 진행합니다")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "성공"),
+    @ApiResponse(responseCode = "201", description = "성공"),
   })
   @PostMapping("/signup")
+  @ResponseStatus(HttpStatus.CREATED)
   public BaseResponse<SignUpMemberResponse> signUpMember(@RequestBody SignUpMemberRequest request) {
     return BaseResponse.onSuccess(
+        GlobalErrorCode.CREATED,
         MemberConverter.toSignUpMemberResponse(memberCommandService.signUpMember(request)));
   }
 
@@ -46,8 +51,9 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "성공"),
   })
   @PostMapping("/login")
+  @ResponseStatus(HttpStatus.CREATED)
   public BaseResponse<LoginMemberResponse> loginMember(@RequestBody LoginMemberRequest request) {
-    return BaseResponse.onSuccess(memberCommandService.login(request));
+    return BaseResponse.onSuccess(GlobalErrorCode.CREATED, memberCommandService.login(request));
   }
 
   @Operation(summary = "내 월간 미션 달성률 조회 API", description = "현재 로그인한 사용자의 월간 달성률을 조회합니다.")

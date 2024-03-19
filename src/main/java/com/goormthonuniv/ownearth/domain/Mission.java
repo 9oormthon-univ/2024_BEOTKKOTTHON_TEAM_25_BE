@@ -26,7 +26,7 @@ public class Mission extends BaseEntity {
   private String content;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false, columnDefinition = "VARCHAR(10)")
+  @Column(nullable = false, columnDefinition = "VARCHAR(20)")
   private MissionCategory missionCategory;
 
   @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
