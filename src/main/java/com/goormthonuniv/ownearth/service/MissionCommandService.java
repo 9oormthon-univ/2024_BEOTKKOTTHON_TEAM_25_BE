@@ -9,4 +9,6 @@ public interface MissionCommandService {
   MemberMission getOrAssignMission(Member member);
 
   MemberMission accomplishMission(Member member, Long missionId, MultipartFile missionImage);
+
+  MemberMission changeMission(Member member);
 }

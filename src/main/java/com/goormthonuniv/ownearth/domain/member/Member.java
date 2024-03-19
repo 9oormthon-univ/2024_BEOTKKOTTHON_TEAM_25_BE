@@ -10,6 +10,8 @@ import com.goormthonuniv.ownearth.domain.enums.SocialType;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
+import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
+import com.goormthonuniv.ownearth.exception.MemberException;
 
 import lombok.*;
 
@@ -45,6 +47,8 @@ public class Member extends BaseEntity {
 
   @Builder.Default private Integer monthlyPoint = 0;
 
+  @Builder.Default private Boolean isMissionChangeable = true;
+
   @Column(length = 200)
   private String refreshToken;
 
@@ -62,5 +66,16 @@ public class Member extends BaseEntity {
 
   public void updateRefreshToken(String refreshToken) {
     this.refreshToken = refreshToken;
+  }
+
+  public void setIsMissionChangeable(Boolean missionChangeCheck) {
+    this.isMissionChangeable = missionChangeCheck;
+  }
+
+  public void decreasePoint() {
+    if (this.point < 10) {
+      throw new MemberException(GlobalErrorCode.NOT_ENOUGH_POINTS);
+    }
+    this.point -= 10;
   }
 }

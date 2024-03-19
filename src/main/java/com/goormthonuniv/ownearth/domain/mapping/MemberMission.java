@@ -43,4 +43,8 @@ public class MemberMission extends BaseEntity {
     this.isCompleted = true;
     this.completedAt = LocalDateTime.now();
   }
+
+  public void setMission(Mission mission) {
+    this.mission = mission;
+  }
 }
