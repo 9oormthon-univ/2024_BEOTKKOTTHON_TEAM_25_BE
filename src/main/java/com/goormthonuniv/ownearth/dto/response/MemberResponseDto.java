@@ -24,4 +24,16 @@ public class MemberResponseDto {
     String accessToken;
     String refreshToken;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class MonthlyMissionStatusResponse {
+    Long memberId;
+    String name;
+    Integer completedMissionCount;
+    Integer accumulatedPoint;
+    Integer completionRate;
+  }
 }

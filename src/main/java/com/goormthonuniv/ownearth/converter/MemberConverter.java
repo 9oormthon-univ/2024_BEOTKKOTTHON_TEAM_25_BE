@@ -1,5 +1,7 @@
 package com.goormthonuniv.ownearth.converter;
 
+import java.time.LocalDate;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +39,17 @@ public class MemberConverter {
         .memberId(memberId)
         .accessToken(accessToken)
         .refreshToken(refreshToken)
+        .build();
+  }
+
+  public static MonthlyMissionStatusResponse toMonthlyMissionStatusResponse(
+      Member member, Integer completedMissionCount) {
+    return MonthlyMissionStatusResponse.builder()
+        .memberId(member.getId())
+        .name(member.getName())
+        .completedMissionCount(completedMissionCount)
+        .accumulatedPoint(member.getMonthlyPoint())
+        .completionRate(completedMissionCount * 100 / LocalDate.now().lengthOfMonth())
         .build();
   }
 }
