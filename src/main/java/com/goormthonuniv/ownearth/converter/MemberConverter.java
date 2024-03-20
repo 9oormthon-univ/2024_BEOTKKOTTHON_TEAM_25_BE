@@ -113,6 +113,28 @@ public class MemberConverter {
     return requests.stream().map(MemberConverter::toFriendRequestResponse).toList();
   }
 
+  public static Friend toFriend(Member fromMember, Member targetMember, Boolean isFriend) {
+    return Friend.builder()
+        .fromMember(fromMember)
+        .toMember(targetMember)
+        .isFriend(isFriend)
+        .build();
+  }
+
+  public static AcceptFriendResponse toAcceptFriendResponse(Friend friend) {
+    return AcceptFriendResponse.builder()
+        .isFriend(friend.getIsFriend())
+        .memberId(friend.getFromMember().getId())
+        .build();
+  }
+
+  public static GetEarthResponse toGetEarthResponse(
+      List<ItemIdCategory> usingItems, String earthName, Long createdAt) {
+    return GetEarthResponse.builder()
+        .usingItems(usingItems)
+        .earthName(earthName)
+        .createdAt(createdAt)
+        .build();
   private static FriendRequestResponse toFriendRequestResponse(Friend request) {
     return FriendRequestResponse.builder()
         .requestId(request.getId())
