@@ -77,8 +77,19 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class GetEarthResponse {
+
     List<ItemIdCategory> usingItems;
     String earthName;
     Long createdAt;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class AcceptFriendResponse {
+
+    Long memberId;
+    Boolean isFriend;
   }
 }

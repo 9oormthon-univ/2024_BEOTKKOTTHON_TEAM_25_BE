@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -28,7 +29,7 @@ public class Friend extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Builder.Default private Boolean isFriend = false;
+  @Setter @Builder.Default private Boolean isFriend = false;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "from_member_id")

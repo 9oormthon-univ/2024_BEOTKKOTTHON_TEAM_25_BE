@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum GlobalErrorCode {
   CREATED(HttpStatus.CREATED, "요청 성공 및 리소스 생성됨"),
   UPDATED(HttpStatus.ACCEPTED, "요청 성공 및 리소스 수정됨"),
-  GOT(HttpStatus.OK, "요청 성공 및 리소스 조회됨"),
+  DELETED(HttpStatus.NO_CONTENT, "요청 성공 및 리소스 삭제됨"),
 
   //  Member
   // 400 BAD_REQUEST - 잘못된 요청
@@ -55,7 +55,8 @@ public enum GlobalErrorCode {
 
   // Member
   MISSION_QUERY_CONDITION_INCORRECT(HttpStatus.BAD_REQUEST, "조회 조건이 올바르지 않습니다."),
-  ALREADY_FRIEND(HttpStatus.BAD_REQUEST, "이미 요청했거나 친구 상태입니다.");
+  ALREADY_FRIEND(HttpStatus.BAD_REQUEST, "이미 요청했거나 친구 상태입니다."),
+  REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 요청입니다.");
 
   private final HttpStatus httpStatus;
   private final String message;
