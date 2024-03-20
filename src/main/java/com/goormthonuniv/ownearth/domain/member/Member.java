@@ -58,10 +58,10 @@ public class Member extends BaseEntity {
   @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
   private List<MemberMission> memberMissions = new ArrayList<>();
 
-  @OneToMany(mappedBy = "aMember", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL)
   private List<Friend> aFriends = new ArrayList<>();
 
-  @OneToMany(mappedBy = "bMember", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
   private List<Friend> bFriends = new ArrayList<>();
 
   public void updateRefreshToken(String refreshToken) {

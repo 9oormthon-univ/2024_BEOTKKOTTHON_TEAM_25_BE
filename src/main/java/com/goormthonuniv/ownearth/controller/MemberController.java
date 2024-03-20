@@ -76,6 +76,16 @@ public class MemberController {
         MemberConverter.toMonthlyMissionStatusResponse(member, completedMissionCount));
   }
 
+  @Operation(summary = "내 친구들 월간 미션 달성률 조회 API", description = "현재 로그인한 사용자의 친구의 월간 달성률을 조회합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping("/me/friends/missions/monthly")
+  public BaseResponse<List<MonthlyMissionStatusResponse>> getFriendsMonthlyMissionStatus(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    List<MonthlyMissionStatusResponse> response =
+        memberQueryService.getFriendsMonthlyMissionStatus(member);
+    return BaseResponse.onSuccess(response);
+  }
+
   @Operation(summary = "완료한 미션 목록 조회 API", description = "날짜별, 종류별로 완료한 미션을 조회합니다.")
   @ApiResponse(responseCode = "200", description = "성공")
   @GetMapping("/me/missions/completed")
