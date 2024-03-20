@@ -28,6 +28,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendRes
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
@@ -134,7 +135,6 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "성공"),
   })
   @GetMapping("/earth")
-  @ResponseStatus(HttpStatus.OK)
   public BaseResponse<GetEarthResponse> getMyEarthStatus(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member));
@@ -158,5 +158,15 @@ public class MemberController {
       @Parameter(hidden = true) @AuthMember Member member, @PathVariable("id") Long requestId) {
     memberCommandService.refuseFriendRequest(member, requestId);
     return BaseResponse.onSuccess(GlobalErrorCode.DELETED, null);
+  }
+
+  @Operation(summary = "포인트 조회 API", description = "회원의 포인트를 조회합니다")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "성공"),
+  })
+  @GetMapping("/me/point")
+  public BaseResponse<GetPointResponse> getPoint(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(MemberConverter.toGetPointResponse(member));
   }
 }

@@ -103,4 +103,12 @@ public class MemberResponseDto {
     Long memberId;
     Boolean isFriend;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class GetPointResponse {
+    Integer point;
+  }
 }
