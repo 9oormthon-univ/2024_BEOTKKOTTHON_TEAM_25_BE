@@ -53,7 +53,8 @@ public enum GlobalErrorCode {
   MISSION_ALREADY_ACCOMPLISHED(HttpStatus.BAD_REQUEST, "이미 완료된 미션입니다."),
 
   // Member
-  MISSION_QUERY_CONDITION_INCORRECT(HttpStatus.BAD_REQUEST, "조회 조건이 올바르지 않습니다.");
+  MISSION_QUERY_CONDITION_INCORRECT(HttpStatus.BAD_REQUEST, "조회 조건이 올바르지 않습니다."),
+  ALREADY_FRIEND(HttpStatus.BAD_REQUEST, "이미 요청했거나 친구 상태입니다.");
 
   private final HttpStatus httpStatus;
   private final String message;

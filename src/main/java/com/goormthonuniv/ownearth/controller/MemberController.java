@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +17,13 @@ import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
+import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
@@ -98,5 +101,16 @@ public class MemberController {
     List<MemberMission> memberMissions =
         memberQueryService.getMonthlyCompletedMissions(member, yearMonth, category);
     return BaseResponse.onSuccess(MemberConverter.toCompletedMissionResponseList(memberMissions));
+  }
+
+  @Operation(summary = "친구 요청 API", description = "친구 요청을 보냅니다.")
+  @ApiResponse(responseCode = "201", description = "성공")
+  @PostMapping("/{id}/friends/requests")
+  public BaseResponse<FriendRequestResponse> requestFriend(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @PathVariable(name = "id") Long targetMemberId) {
+    Friend friend = memberCommandService.requestFriend(member, targetMemberId);
+    return BaseResponse.onSuccess(
+        GlobalErrorCode.CREATED, MemberConverter.toFriendRequestResponse(friend));
   }
 }

@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
   private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtRequestFilter jwtRequestFilter;
@@ -61,7 +62,7 @@ public class SecurityConfig {
             authorize.requestMatchers(allowedUrls).permitAll().anyRequest().authenticated());
 
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-        .addFilterAfter(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
+        .addFilterBefore(jwtAuthExceptionHandlingFilter, JwtRequestFilter.class);
 
     return http.build();
   }
