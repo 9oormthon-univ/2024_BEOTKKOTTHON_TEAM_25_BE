@@ -13,4 +13,8 @@ public interface MemberCommandService {
   LoginMemberResponse login(LoginMemberRequest request);
 
   Friend requestFriend(Member member, Long targetMemberId);
+
+  Friend acceptFriendRequest(Member member, Long requestId);
+
+  void refuseFriendRequest(Member member, Long requestId);
 }

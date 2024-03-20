@@ -69,4 +69,14 @@ public class MemberResponseDto {
 
     Long requestId;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class AcceptFriendResponse {
+
+    Long memberId;
+    Boolean isFriend;
+  }
 }

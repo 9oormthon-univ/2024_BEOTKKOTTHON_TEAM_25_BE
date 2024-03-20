@@ -12,6 +12,7 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
@@ -81,7 +82,18 @@ public class MemberConverter {
     return FriendRequestResponse.builder().requestId(friend.getId()).build();
   }
 
-  public static Friend toFriend(Member fromMember, Member targetMember) {
-    return Friend.builder().fromMember(fromMember).toMember(targetMember).build();
+  public static Friend toFriend(Member fromMember, Member targetMember, Boolean isFriend) {
+    return Friend.builder()
+        .fromMember(fromMember)
+        .toMember(targetMember)
+        .isFriend(isFriend)
+        .build();
+  }
+
+  public static AcceptFriendResponse toAcceptFriendResponse(Friend friend) {
+    return AcceptFriendResponse.builder()
+        .isFriend(friend.getIsFriend())
+        .memberId(friend.getFromMember().getId())
+        .build();
   }
 }

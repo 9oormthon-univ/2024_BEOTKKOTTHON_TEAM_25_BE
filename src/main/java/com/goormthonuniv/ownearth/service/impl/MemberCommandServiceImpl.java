@@ -73,7 +73,42 @@ public class MemberCommandServiceImpl implements MemberCommandService {
       throw new MemberException(GlobalErrorCode.ALREADY_FRIEND);
     }
 
-    friend = MemberConverter.toFriend(member, targetMember);
+    friend = MemberConverter.toFriend(member, targetMember, false);
     return friendRepository.save(friend);
+  }
+
+  @Override
+  public Friend acceptFriendRequest(Member member, Long requestId) {
+    Friend request =
+        friendRepository
+            .findById(requestId)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND));
+
+    if (request.getFromMember() == member) {
+      throw new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND);
+    }
+
+    if (request.getIsFriend()) {
+      throw new MemberException(GlobalErrorCode.ALREADY_FRIEND);
+    }
+
+    Friend friend = MemberConverter.toFriend(member, request.getToMember(), true);
+    request.setIsFriend(true);
+
+    return friendRepository.save(friend);
+  }
+
+  @Override
+  public void refuseFriendRequest(Member member, Long requestId) {
+    Friend request =
+        friendRepository
+            .findById(requestId)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND));
+
+    if (request.getFromMember() == member || request.getIsFriend()) {
+      throw new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND);
+    }
+
+    friendRepository.delete(request);
   }
 }
