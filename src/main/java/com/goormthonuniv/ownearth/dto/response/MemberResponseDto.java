@@ -67,9 +67,20 @@ public class MemberResponseDto {
   @Builder
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class RequestFriendSuccessResponse {
+
+    Long requestId;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class FriendRequestResponse {
 
     Long requestId;
+    Long memberId;
+    String name;
   }
 
   @Getter

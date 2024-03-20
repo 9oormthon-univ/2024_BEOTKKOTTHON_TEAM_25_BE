@@ -119,4 +119,9 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     return MemberConverter.toGetEarthResponse(usingItems, member.getEarthName(), createdAt);
   }
+
+  @Override
+  public List<Friend> getFriendRequests(Member member) {
+    return friendRepository.findAllByToMemberAndIsFriendFalse(member);
+  }
 }

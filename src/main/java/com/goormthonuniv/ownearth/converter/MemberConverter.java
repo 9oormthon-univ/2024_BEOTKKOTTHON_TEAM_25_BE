@@ -19,6 +19,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestRe
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 
 @Component
@@ -80,8 +81,12 @@ public class MemberConverter {
         .build();
   }
 
-  public static FriendRequestResponse toFriendRequestResponse(Friend friend) {
-    return FriendRequestResponse.builder().requestId(friend.getId()).build();
+  public static RequestFriendSuccessResponse toRequestFriendSuccessResponse(Friend friend) {
+    return RequestFriendSuccessResponse.builder().requestId(friend.getId()).build();
+  }
+
+  public static List<FriendRequestResponse> toFriendRequestResponseList(List<Friend> requests) {
+    return requests.stream().map(MemberConverter::toFriendRequestResponse).toList();
   }
 
   public static Friend toFriend(Member fromMember, Member targetMember, Boolean isFriend) {
@@ -105,6 +110,14 @@ public class MemberConverter {
         .usingItems(usingItems)
         .earthName(earthName)
         .createdAt(createdAt)
+        .build();
+  }
+
+  private static FriendRequestResponse toFriendRequestResponse(Friend request) {
+    return FriendRequestResponse.builder()
+        .requestId(request.getId())
+        .memberId(request.getFromMember().getId())
+        .name(request.getFromMember().getName())
         .build();
   }
 }
