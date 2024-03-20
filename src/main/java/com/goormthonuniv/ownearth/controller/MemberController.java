@@ -21,6 +21,7 @@ import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
@@ -118,11 +119,11 @@ public class MemberController {
 
   @Operation(summary = "친구 요청 수락 API", description = "친구 요청을 수락합니다.")
   @ApiResponse(responseCode = "201", description = "성공")
-  @PostMapping("/me/friends/requests/{id}")
+  @PostMapping("/me/friends")
   public BaseResponse<AcceptFriendResponse> acceptFriend(
       @Parameter(hidden = true) @AuthMember Member member,
-      @PathVariable(name = "id") Long requestId) {
-    Friend friend = memberCommandService.acceptFriendRequest(member, requestId);
+      @RequestBody FriendAcceptRequest request) {
+    Friend friend = memberCommandService.acceptFriendRequest(member, request);
     return BaseResponse.onSuccess(
         GlobalErrorCode.CREATED, MemberConverter.toAcceptFriendResponse(friend));
   }
