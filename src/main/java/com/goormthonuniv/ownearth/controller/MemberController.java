@@ -118,6 +118,17 @@ public class MemberController {
         GlobalErrorCode.CREATED, MemberConverter.toFriendRequestResponse(friend));
   }
 
+  @Operation(summary = "내 지구 상태 조회 API", description = "지구 이름, 사용 아이템, 가입한 기간, 할당된 미션을 조회합니다")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "성공"),
+  })
+  @GetMapping("/earth")
+  @ResponseStatus(HttpStatus.OK)
+  public BaseResponse<GetEarthResponse> getMyEarthStatus(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member));
+  }
+
   @Operation(summary = "친구 요청 수락 API", description = "친구 요청을 수락합니다.")
   @ApiResponse(responseCode = "201", description = "성공")
   @PostMapping("/me/friends")
