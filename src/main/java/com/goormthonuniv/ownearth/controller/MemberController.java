@@ -1,21 +1,29 @@
 package com.goormthonuniv.ownearth.controller;
 
+import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
+import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
+import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
 import com.goormthonuniv.ownearth.service.MemberQueryService;
@@ -76,5 +84,19 @@ public class MemberController {
     List<MonthlyMissionStatusResponse> response =
         memberQueryService.getFriendsMonthlyMissionStatus(member);
     return BaseResponse.onSuccess(response);
+  }
+
+  @Operation(summary = "완료한 미션 목록 조회 API", description = "날짜별, 종류별로 완료한 미션을 조회합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping("/me/missions/completed")
+  public BaseResponse<List<CompletedMissionResponse>> getCompletedMissions(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @Parameter(description = "날짜별 조회, 형식 yyyy-mm")
+          @RequestParam(value = "yearMonth", required = false)
+          YearMonth yearMonth,
+      @RequestParam(value = "category", required = false) MissionCategory category) {
+    List<MemberMission> memberMissions =
+        memberQueryService.getMonthlyCompletedMissions(member, yearMonth, category);
+    return BaseResponse.onSuccess(MemberConverter.toCompletedMissionResponseList(memberMissions));
   }
 }
