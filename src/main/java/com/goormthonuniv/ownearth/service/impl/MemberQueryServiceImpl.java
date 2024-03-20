@@ -119,4 +119,10 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     return MemberConverter.toGetEarthResponse(usingItems, member.getEarthName(), createdAt);
   }
+
+  @Override
+  public Integer getPoints(Long memberId) {
+    Integer point = memberRepository.findById(memberId).get().getPoint();
+    return point;
+  }
 }

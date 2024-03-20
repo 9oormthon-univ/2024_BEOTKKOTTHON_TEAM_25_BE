@@ -21,4 +21,6 @@ public interface MemberQueryService {
       Member member, YearMonth queryYearMonth, MissionCategory category);
 
   GetEarthResponse getEarthStatus(Member member);
+
+  Integer getPoints(Long memberId);
 }
