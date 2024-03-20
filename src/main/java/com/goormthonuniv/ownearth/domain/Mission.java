@@ -5,7 +5,6 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
@@ -31,6 +30,5 @@ public class Mission extends BaseEntity {
   private MissionCategory missionCategory;
 
   @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-  @JsonManagedReference
   private List<MemberMission> memberMissions = new ArrayList<>();
 }

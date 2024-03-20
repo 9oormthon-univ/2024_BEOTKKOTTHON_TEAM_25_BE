@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.goormthonuniv.ownearth.domain.Mission;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
 import com.goormthonuniv.ownearth.domain.member.Member;
@@ -33,12 +32,10 @@ public class MemberMission extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
-  @JsonBackReference
   private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "mission_id")
-  @JsonBackReference
   private Mission mission;
 
   public void missionComplete(String imageUrl) {

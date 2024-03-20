@@ -2,7 +2,6 @@ package com.goormthonuniv.ownearth.domain.mapping;
 
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
 import com.goormthonuniv.ownearth.domain.member.Member;
@@ -25,11 +24,9 @@ public class MemberItem extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
-  @JsonBackReference
   private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "item_id")
-  @JsonBackReference
   private Item item;
 }
