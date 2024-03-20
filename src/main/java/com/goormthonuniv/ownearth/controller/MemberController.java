@@ -169,4 +169,14 @@ public class MemberController {
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(MemberConverter.toGetPointResponse(member));
   }
+
+  @Operation(summary = "친구 삭제 API", description = "친구를 삭제합니다.")
+  @ApiResponse(responseCode = "204")
+  @DeleteMapping("/me/friends/{id}")
+  public BaseResponse<Void> deleteFriend(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @PathVariable("id") Long targetMemberId) {
+    memberCommandService.deleteFriend(member, targetMemberId);
+    return BaseResponse.onSuccess(GlobalErrorCode.DELETED, null);
+  }
 }

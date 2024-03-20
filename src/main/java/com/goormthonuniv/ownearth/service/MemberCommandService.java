@@ -18,4 +18,6 @@ public interface MemberCommandService {
   Friend acceptFriendRequest(Member member, FriendAcceptRequest request);
 
   void refuseFriendRequest(Member member, Long requestId);
+
+  void deleteFriend(Member member, Long targetMemberId);
 }
