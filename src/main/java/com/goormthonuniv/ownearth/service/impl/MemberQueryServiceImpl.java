@@ -91,4 +91,9 @@ public class MemberQueryServiceImpl implements MemberQueryService {
       throw new MemberException(GlobalErrorCode.MISSION_QUERY_CONDITION_INCORRECT);
     }
   }
+
+  @Override
+  public List<Friend> getFriendRequests(Member member) {
+    return friendRepository.findAllByToMemberAndIsFriendFalse(member);
+  }
 }

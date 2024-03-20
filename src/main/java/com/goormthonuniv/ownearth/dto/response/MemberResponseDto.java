@@ -1,7 +1,9 @@
 package com.goormthonuniv.ownearth.dto.response;
 
-import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import java.time.LocalDateTime;
+
+import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,72 +12,72 @@ import lombok.NoArgsConstructor;
 
 public class MemberResponseDto {
 
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class SignUpMemberResponse {
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class SignUpMemberResponse {
 
-        Long memberId;
-        String email;
-        String name;
-        String earthName;
-    }
+    Long memberId;
+    String email;
+    String name;
+    String earthName;
+  }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class LoginMemberResponse {
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class LoginMemberResponse {
 
-        Long memberId;
-        String accessToken;
-        String refreshToken;
-    }
+    Long memberId;
+    String accessToken;
+    String refreshToken;
+  }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class MonthlyMissionStatusResponse {
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class MonthlyMissionStatusResponse {
 
-        Long memberId;
-        String name;
-        Integer completedMissionCount;
-        Integer accumulatedPoint;
-        Integer completionRate;
-    }
+    Long memberId;
+    String name;
+    Integer completedMissionCount;
+    Integer accumulatedPoint;
+    Integer completionRate;
+  }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class CompletedMissionResponse {
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class CompletedMissionResponse {
 
-        Long memberMissionId;
-        String imageUrl;
-        String missionContent;
-        MissionCategory missionCategory;
-        LocalDateTime completedAt;
-    }
+    Long memberMissionId;
+    String imageUrl;
+    String missionContent;
+    MissionCategory missionCategory;
+    LocalDateTime completedAt;
+  }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class RequestFriendSuccessResponse {
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class RequestFriendSuccessResponse {
 
-        Long requestId;
-    }
+    Long requestId;
+  }
 
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    @AllArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class FriendRequestResponse {
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class FriendRequestResponse {
 
-        Long requestId;
-        Long memberId;
-        String name;
-    }
+    Long requestId;
+    Long memberId;
+    String name;
+  }
 }
