@@ -14,4 +14,15 @@ public class ItemResponseDto {
     Long id;
     ItemCategory itemCategory;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class ItemResponse {
+    Long id;
+    String name;
+    Integer price;
+    ItemCategory itemCategory;
+  }
 }
