@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 
@@ -32,5 +33,6 @@ public class Item {
   private ItemCategory itemCategory;
 
   @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private List<MemberItem> memberItems = new ArrayList<>();
 }

@@ -90,7 +90,7 @@ public class MemberConverter {
   public static GetEarthResponse toGetEarthResponse(
       List<ItemIdCategory> usingItems, String earthName, Long createdAt) {
     return GetEarthResponse.builder()
-        .myUsingItems(usingItems)
+        .usingItems(usingItems)
         .earthName(earthName)
         .createdAt(createdAt)
         .build();
