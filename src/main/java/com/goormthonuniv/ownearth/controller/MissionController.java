@@ -2,13 +2,7 @@ package com.goormthonuniv.ownearth.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
@@ -37,14 +31,13 @@ public class MissionController {
 
   @Operation(summary = "오늘의 미션 할당/조회 API", description = "오늘의 미션이 없으면 미션을 할당하고 조회, 있다면 미션을 조회합니다")
   @ApiResponses({
-    @ApiResponse(responseCode = "201", description = "성공"),
+    @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @PostMapping("/today")
-  @ResponseStatus(HttpStatus.CREATED)
+  @GetMapping("/today")
+  @ResponseStatus(HttpStatus.OK)
   public BaseResponse<GetOrAssignMemberMissionResponse> getOrAssignMemberMission(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(
-        GlobalErrorCode.CREATED,
         MissionConverter.toGetOrAssignMemberMission(
             missionCommandService.getOrAssignMission(member)));
   }

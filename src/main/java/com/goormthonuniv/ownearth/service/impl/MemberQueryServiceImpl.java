@@ -3,7 +3,9 @@ package com.goormthonuniv.ownearth.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,12 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
+import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
 import com.goormthonuniv.ownearth.repository.FriendRepository;
+import com.goormthonuniv.ownearth.repository.MemberItemRepository;
 import com.goormthonuniv.ownearth.repository.MemberMissionRepository;
 import com.goormthonuniv.ownearth.repository.MemberRepository;
 import com.goormthonuniv.ownearth.service.MemberQueryService;
@@ -31,6 +37,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
   private final MemberRepository memberRepository;
   private final MemberMissionRepository memberMissionRepository;
   private final FriendRepository friendRepository;
+  private final MemberItemRepository memberItemRepository;
 
   @Override
   public Member findMemberById(Long memberId) {
@@ -90,5 +97,26 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     } else {
       throw new MemberException(GlobalErrorCode.MISSION_QUERY_CONDITION_INCORRECT);
     }
+  }
+
+  public GetEarthResponse getEarthStatus(Member member) {
+
+    List<MemberItem> usedMemberItems =
+        memberItemRepository.findMemberItemsByMemberIdAndIsUsingTrue(member.getId());
+
+    List<ItemIdCategory> usingItems =
+        usedMemberItems.stream()
+            .map(
+                memberItem ->
+                    new ItemIdCategory(
+                        memberItem.getItem().getId(), memberItem.getItem().getItemCategory()))
+            .collect(Collectors.toList());
+
+    LocalDateTime now = LocalDateTime.now();
+
+    Long createdAt =
+        ChronoUnit.DAYS.between(member.getCreatedAt().toLocalDate(), now.toLocalDate());
+
+    return MemberConverter.toGetEarthResponse(usingItems, member.getEarthName(), createdAt);
   }
 }
