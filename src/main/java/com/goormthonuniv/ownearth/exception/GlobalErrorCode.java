@@ -50,10 +50,7 @@ public enum GlobalErrorCode {
   // Mission
   MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 미션이 존재하지 않습니다."),
   MISSION_IMAGE_ANALYSIS_FAILED(HttpStatus.BAD_REQUEST, "미션 이미지 분석에 실패했습니다. 이미지가 유효하지 않은 것 같습니다."),
-  MISSION_ALREADY_ACCOMPLISHED(HttpStatus.BAD_REQUEST, "이미 완료된 미션입니다."),
-
-  // Member
-  MISSION_QUERY_CONDITION_INCORRECT(HttpStatus.BAD_REQUEST, "조회 조건이 올바르지 않습니다.");
+  MISSION_ALREADY_ACCOMPLISHED(HttpStatus.BAD_REQUEST, "이미 완료된 미션입니다.");
 
   private final HttpStatus httpStatus;
   private final String message;

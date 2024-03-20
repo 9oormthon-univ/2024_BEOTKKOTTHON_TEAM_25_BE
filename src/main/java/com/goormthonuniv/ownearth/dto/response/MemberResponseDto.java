@@ -1,9 +1,5 @@
 package com.goormthonuniv.ownearth.dto.response;
 
-import java.time.LocalDateTime;
-
-import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
-
 import lombok.*;
 
 public class MemberResponseDto {
@@ -31,25 +27,13 @@ public class MemberResponseDto {
 
   @Getter
   @Builder
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  @NoArgsConstructor
+  @AllArgsConstructor
   public static class MonthlyMissionStatusResponse {
     Long memberId;
     String name;
     Integer completedMissionCount;
     Integer accumulatedPoint;
     Integer completionRate;
-  }
-
-  @Getter
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class CompletedMissionResponse {
-    Long memberMissionId;
-    String imageUrl;
-    String missionContent;
-    MissionCategory missionCategory;
-    LocalDateTime completedAt;
   }
 }

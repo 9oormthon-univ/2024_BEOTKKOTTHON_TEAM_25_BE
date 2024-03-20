@@ -1,20 +1,14 @@
 package com.goormthonuniv.ownearth.converter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.goormthonuniv.ownearth.domain.Mission;
-import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
-import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
 
 @Component
 public class MemberConverter {
@@ -56,22 +50,6 @@ public class MemberConverter {
         .completedMissionCount(completedMissionCount)
         .accumulatedPoint(member.getMonthlyPoint())
         .completionRate(completedMissionCount * 100 / LocalDate.now().lengthOfMonth())
-        .build();
-  }
-
-  public static List<CompletedMissionResponse> toCompletedMissionResponseList(
-      List<MemberMission> memberMissions) {
-    return memberMissions.stream().map(MemberConverter::toCompletedMissionResponse).toList();
-  }
-
-  private static CompletedMissionResponse toCompletedMissionResponse(MemberMission memberMission) {
-    Mission mission = memberMission.getMission();
-    return CompletedMissionResponse.builder()
-        .completedAt(memberMission.getCompletedAt())
-        .memberMissionId(memberMission.getId())
-        .missionContent(mission.getContent())
-        .missionCategory(mission.getMissionCategory())
-        .imageUrl(memberMission.getImageUrl())
         .build();
   }
 }
