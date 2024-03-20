@@ -12,6 +12,7 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
