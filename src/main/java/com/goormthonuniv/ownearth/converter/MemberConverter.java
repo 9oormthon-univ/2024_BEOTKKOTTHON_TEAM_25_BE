@@ -13,6 +13,7 @@ import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
@@ -95,15 +96,6 @@ public class MemberConverter {
     return AcceptFriendResponse.builder()
         .isFriend(friend.getIsFriend())
         .memberId(friend.getFromMember().getId())
-        .build();
-  }
-
-  public static GetEarthResponse toGetEarthResponse(
-      List<ItemIdCategory> usingItems, String earthName, Long createdAt) {
-    return GetEarthResponse.builder()
-        .usingItems(usingItems)
-        .earthName(earthName)
-        .createdAt(createdAt)
         .build();
   }
 

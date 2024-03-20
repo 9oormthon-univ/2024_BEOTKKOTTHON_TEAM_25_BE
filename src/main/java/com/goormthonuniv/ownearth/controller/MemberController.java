@@ -148,15 +148,4 @@ public class MemberController {
     memberCommandService.refuseFriendRequest(member, requestId);
     return BaseResponse.onSuccess(GlobalErrorCode.DELETED, null);
   }
-
-  @Operation(summary = "내 지구 상태 조회 API", description = "지구 이름, 사용 아이템, 가입한 기간, 할당된 미션을 조회합니다")
-  @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "성공"),
-  })
-  @GetMapping("/earth")
-  @ResponseStatus(HttpStatus.OK)
-  public BaseResponse<GetEarthResponse> getMyEarthStatus(
-      @Parameter(hidden = true) @AuthMember Member member) {
-    return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member));
-  }
 }
