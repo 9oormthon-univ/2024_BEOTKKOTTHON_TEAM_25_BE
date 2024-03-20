@@ -16,7 +16,9 @@ import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MissionConverter;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.*;
+import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.GetOrAssignMemberMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.MissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.MissionResultDto;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.MissionCommandService;
 
@@ -32,8 +34,8 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "💬 Mission", description = "미션 관련 API")
 @RequestMapping("/api/v1/missions")
 public class MissionController {
+
   private final MissionCommandService missionCommandService;
-  private final MissionConverter missionConverter;
 
   @Operation(summary = "오늘의 미션 할당/조회 API", description = "오늘의 미션이 없으면 미션을 할당하고 조회, 있다면 미션을 조회합니다")
   @ApiResponses({
@@ -69,12 +71,12 @@ public class MissionController {
   @ApiResponses({
     @ApiResponse(responseCode = "202", description = "성공"),
   })
-  @PatchMapping("/mission")
+  @PatchMapping("/today")
   @ResponseStatus(HttpStatus.ACCEPTED)
   public BaseResponse<MissionResponse> changeMission(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(
         GlobalErrorCode.UPDATED,
-        missionConverter.toMissionResponse(missionCommandService.changeMission(member)));
+        MissionConverter.toMissionResponse(missionCommandService.changeMission(member)));
   }
 }
