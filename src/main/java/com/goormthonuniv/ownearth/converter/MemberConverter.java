@@ -7,11 +7,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.goormthonuniv.ownearth.domain.Mission;
+import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
@@ -73,5 +75,13 @@ public class MemberConverter {
         .missionCategory(mission.getMissionCategory())
         .imageUrl(memberMission.getImageUrl())
         .build();
+  }
+
+  public static FriendRequestResponse toFriendRequestResponse(Friend friend) {
+    return FriendRequestResponse.builder().requestId(friend.getId()).build();
+  }
+
+  public static Friend toFriend(Member fromMember, Member targetMember) {
+    return Friend.builder().fromMember(fromMember).toMember(targetMember).build();
   }
 }

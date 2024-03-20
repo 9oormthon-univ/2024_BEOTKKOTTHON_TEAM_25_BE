@@ -4,7 +4,11 @@ import java.time.LocalDateTime;
 
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class MemberResponseDto {
 
@@ -13,6 +17,7 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class SignUpMemberResponse {
+
     Long memberId;
     String email;
     String name;
@@ -24,6 +29,7 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class LoginMemberResponse {
+
     Long memberId;
     String accessToken;
     String refreshToken;
@@ -34,6 +40,7 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class MonthlyMissionStatusResponse {
+
     Long memberId;
     String name;
     Integer completedMissionCount;
@@ -46,10 +53,20 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class CompletedMissionResponse {
+
     Long memberMissionId;
     String imageUrl;
     String missionContent;
     MissionCategory missionCategory;
     LocalDateTime completedAt;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class FriendRequestResponse {
+
+    Long requestId;
   }
 }

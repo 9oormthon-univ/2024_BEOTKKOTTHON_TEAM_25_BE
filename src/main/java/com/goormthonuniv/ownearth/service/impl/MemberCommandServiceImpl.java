@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.goormthonuniv.ownearth.converter.MemberConverter;
+import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.*;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
+import com.goormthonuniv.ownearth.repository.FriendRepository;
 import com.goormthonuniv.ownearth.repository.MemberRepository;
 import com.goormthonuniv.ownearth.security.provider.JwtAuthProvider;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
@@ -24,6 +27,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   private final MemberRepository memberRepository;
   private final JwtAuthProvider jwtAuthProvider;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final FriendRepository friendRepository;
 
   @Override
   public Member signUpMember(SignUpMemberRequest request) {
@@ -55,5 +59,21 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     member.updateRefreshToken(refreshToken);
 
     return MemberConverter.toLoginMemberResponse(member.getId(), accessToken, refreshToken);
+  }
+
+  @Override
+  public Friend requestFriend(Member member, Long targetMemberId) {
+    Member targetMember =
+        memberRepository
+            .findById(targetMemberId)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND));
+    Friend friend = friendRepository.findByFromMemberAndToMember(member, targetMember).orElse(null);
+
+    if (friend != null) {
+      throw new MemberException(GlobalErrorCode.ALREADY_FRIEND);
+    }
+
+    friend = MemberConverter.toFriend(member, targetMember);
+    return friendRepository.save(friend);
   }
 }
