@@ -112,4 +112,23 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     friendRepository.delete(request);
   }
+
+  @Override
+  public void deleteFriend(Member member, Long targetMemberId) {
+    Member targetMember =
+        memberRepository
+            .findById(targetMemberId)
+            .orElseThrow(() -> new MemberException((GlobalErrorCode.MEMBER_NOT_FOUND)));
+    Friend toFriend =
+        friendRepository
+            .findByFromMemberAndToMemberAndIsFriendTrue(member, targetMember)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.NOT_FRIEND));
+    Friend fromFriend =
+        friendRepository
+            .findByFromMemberAndToMemberAndIsFriendTrue(targetMember, member)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.NOT_FRIEND));
+
+    friendRepository.delete(toFriend);
+    friendRepository.delete(fromFriend);
+  }
 }
