@@ -4,6 +4,7 @@ import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +21,13 @@ import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
@@ -123,5 +127,36 @@ public class MemberController {
     List<Friend> requests = memberQueryService.getFriendRequests(member);
 
     return BaseResponse.onSuccess(MemberConverter.toFriendRequestResponseList(requests));
+  }
+
+  @Operation(summary = "내 지구 상태 조회 API", description = "지구 이름, 사용 아이템, 가입한 기간, 할당된 미션을 조회합니다")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "성공"),
+  })
+  @GetMapping("/earth")
+  @ResponseStatus(HttpStatus.OK)
+  public BaseResponse<GetEarthResponse> getMyEarthStatus(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member));
+  }
+
+  @Operation(summary = "친구 요청 수락 API", description = "친구 요청을 수락합니다.")
+  @ApiResponse(responseCode = "201", description = "성공")
+  @PostMapping("/me/friends")
+  public BaseResponse<AcceptFriendResponse> acceptFriend(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @RequestBody FriendAcceptRequest request) {
+    Friend friend = memberCommandService.acceptFriendRequest(member, request);
+    return BaseResponse.onSuccess(
+        GlobalErrorCode.CREATED, MemberConverter.toAcceptFriendResponse(friend));
+  }
+
+  @Operation(summary = "친구 요청 거절 API", description = "친구 요청을 거절합니다.")
+  @ApiResponse(responseCode = "204")
+  @DeleteMapping("/me/friends/requests/{id}")
+  public BaseResponse<Void> refuseRequest(
+      @Parameter(hidden = true) @AuthMember Member member, @PathVariable("id") Long requestId) {
+    memberCommandService.refuseFriendRequest(member, requestId);
+    return BaseResponse.onSuccess(GlobalErrorCode.DELETED, null);
   }
 }

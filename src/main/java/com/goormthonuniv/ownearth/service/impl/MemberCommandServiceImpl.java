@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
@@ -73,7 +74,42 @@ public class MemberCommandServiceImpl implements MemberCommandService {
       throw new MemberException(GlobalErrorCode.ALREADY_FRIEND);
     }
 
-    friend = MemberConverter.toFriend(member, targetMember);
+    friend = MemberConverter.toFriend(member, targetMember, false);
     return friendRepository.save(friend);
+  }
+
+  @Override
+  public Friend acceptFriendRequest(Member member, FriendAcceptRequest request) {
+    Friend friendRequest =
+        friendRepository
+            .findById(request.getRequestId())
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND));
+
+    if (friendRequest.getFromMember() == member) {
+      throw new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND);
+    }
+
+    if (friendRequest.getIsFriend()) {
+      throw new MemberException(GlobalErrorCode.ALREADY_FRIEND);
+    }
+
+    Friend friend = MemberConverter.toFriend(member, friendRequest.getToMember(), true);
+    friendRequest.setIsFriend(true);
+
+    return friendRepository.save(friend);
+  }
+
+  @Override
+  public void refuseFriendRequest(Member member, Long requestId) {
+    Friend request =
+        friendRepository
+            .findById(requestId)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND));
+
+    if (request.getFromMember() == member || request.getIsFriend()) {
+      throw new MemberException(GlobalErrorCode.REQUEST_NOT_FOUND);
+    }
+
+    friendRepository.delete(request);
   }
 }

@@ -12,8 +12,11 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
@@ -82,8 +85,28 @@ public class MemberConverter {
     return RequestFriendSuccessResponse.builder().requestId(friend.getId()).build();
   }
 
-  public static Friend toFriend(Member fromMember, Member targetMember) {
-    return Friend.builder().fromMember(fromMember).toMember(targetMember).build();
+  public static Friend toFriend(Member fromMember, Member targetMember, Boolean isFriend) {
+    return Friend.builder()
+        .fromMember(fromMember)
+        .toMember(targetMember)
+        .isFriend(isFriend)
+        .build();
+  }
+
+  public static AcceptFriendResponse toAcceptFriendResponse(Friend friend) {
+    return AcceptFriendResponse.builder()
+        .isFriend(friend.getIsFriend())
+        .memberId(friend.getFromMember().getId())
+        .build();
+  }
+
+  public static GetEarthResponse toGetEarthResponse(
+      List<ItemIdCategory> usingItems, String earthName, Long createdAt) {
+    return GetEarthResponse.builder()
+        .usingItems(usingItems)
+        .earthName(earthName)
+        .createdAt(createdAt)
+        .build();
   }
 
   public static List<FriendRequestResponse> toFriendRequestResponseList(List<Friend> requests) {

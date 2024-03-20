@@ -1,8 +1,10 @@
 package com.goormthonuniv.ownearth.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -79,5 +81,26 @@ public class MemberResponseDto {
     Long requestId;
     Long memberId;
     String name;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class GetEarthResponse {
+
+    List<ItemIdCategory> usingItems;
+    String earthName;
+    Long createdAt;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class AcceptFriendResponse {
+
+    Long memberId;
+    Boolean isFriend;
   }
 }
