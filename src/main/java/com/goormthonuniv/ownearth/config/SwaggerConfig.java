@@ -13,10 +13,9 @@ import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
-
   @Bean
   public OpenAPI ownEarthAPI() {
-    Info info = new Info().title("OwnEarth API").description("OwnEarth API 명세").version("0.0.1");
+    Info info = new Info().title("AvAb API").description("OwnEarth API 명세").version("0.0.1");
 
     String jwtSchemeName = "JWT";
     SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
