@@ -31,6 +31,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthRespons
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
@@ -111,12 +112,22 @@ public class MemberController {
   @Operation(summary = "친구 요청 API", description = "친구 요청을 보냅니다.")
   @ApiResponse(responseCode = "201", description = "성공")
   @PostMapping("/{id}/friends/requests")
-  public BaseResponse<FriendRequestResponse> requestFriend(
+  public BaseResponse<RequestFriendSuccessResponse> requestFriend(
       @Parameter(hidden = true) @AuthMember Member member,
       @PathVariable(name = "id") Long targetMemberId) {
     Friend friend = memberCommandService.requestFriend(member, targetMemberId);
     return BaseResponse.onSuccess(
-        GlobalErrorCode.CREATED, MemberConverter.toFriendRequestResponse(friend));
+        GlobalErrorCode.CREATED, MemberConverter.toRequestFriendSuccessResponse(friend));
+  }
+
+  @Operation(summary = "친구 요청 목록 조회 API", description = "친구 요청 목록을 조회합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping("/me/friends/requests")
+  public BaseResponse<List<FriendRequestResponse>> getFriendRequests(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    List<Friend> requests = memberQueryService.getFriendRequests(member);
+
+    return BaseResponse.onSuccess(MemberConverter.toFriendRequestResponseList(requests));
   }
 
   @Operation(summary = "내 지구 상태 조회 API", description = "지구 이름, 사용 아이템, 가입한 기간, 할당된 미션을 조회합니다")
@@ -124,7 +135,6 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "성공"),
   })
   @GetMapping("/earth")
-  @ResponseStatus(HttpStatus.OK)
   public BaseResponse<GetEarthResponse> getMyEarthStatus(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member));
@@ -154,12 +164,9 @@ public class MemberController {
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @GetMapping("/point/{memberId}")
-  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/me/point")
   public BaseResponse<GetPointResponse> getPoint(
-      @Parameter(hidden = true) @AuthMember Member member,
-      @PathVariable(name = "memberId") Long memberId) {
-    return BaseResponse.onSuccess(
-        MemberConverter.toGetPointResponse(memberQueryService.getPoints(memberId)));
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(MemberConverter.toGetPointResponse(member));
   }
 }

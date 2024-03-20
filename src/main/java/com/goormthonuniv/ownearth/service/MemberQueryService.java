@@ -4,6 +4,7 @@ import java.time.YearMonth;
 import java.util.List;
 
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
+import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
@@ -20,7 +21,7 @@ public interface MemberQueryService {
   List<MemberMission> getMonthlyCompletedMissions(
       Member member, YearMonth queryYearMonth, MissionCategory category);
 
-  GetEarthResponse getEarthStatus(Member member);
+  List<Friend> getFriendRequests(Member member);
 
-  Integer getPoints(Long memberId);
+  GetEarthResponse getEarthStatus(Member member);
 }
