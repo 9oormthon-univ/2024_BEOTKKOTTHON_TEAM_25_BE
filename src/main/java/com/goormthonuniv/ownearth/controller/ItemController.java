@@ -32,10 +32,10 @@ public class ItemController {
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @GetMapping("/item")
+  @GetMapping("/items")
   public BaseResponse<List<ItemResponse>> getItemsByItemCategory(
       @Parameter(hidden = true) @AuthMember Member member,
       @RequestParam("category") String itemCategory) {
-    return BaseResponse.onSuccess(itemQueryService.getItemsByItemCategory(itemCategory));
+    return BaseResponse.onSuccess(itemQueryService.getItemsByItemCategory(member, itemCategory));
   }
 }

@@ -24,5 +24,6 @@ public class ItemResponseDto {
     String name;
     Integer price;
     ItemCategory itemCategory;
+    Boolean isPurchased;
   }
 }
