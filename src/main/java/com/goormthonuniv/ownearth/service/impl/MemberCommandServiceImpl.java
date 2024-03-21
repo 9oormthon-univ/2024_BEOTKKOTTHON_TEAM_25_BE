@@ -5,15 +5,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.goormthonuniv.ownearth.converter.MemberConverter;
+import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
+import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
+import com.goormthonuniv.ownearth.exception.ItemException;
 import com.goormthonuniv.ownearth.exception.MemberException;
 import com.goormthonuniv.ownearth.repository.FriendRepository;
+import com.goormthonuniv.ownearth.repository.ItemRepository;
+import com.goormthonuniv.ownearth.repository.MemberItemRepository;
 import com.goormthonuniv.ownearth.repository.MemberRepository;
 import com.goormthonuniv.ownearth.security.provider.JwtAuthProvider;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
@@ -29,6 +34,8 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   private final JwtAuthProvider jwtAuthProvider;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final FriendRepository friendRepository;
+  private final ItemRepository itemRepository;
+  private final MemberItemRepository memberItemRepository;
 
   @Override
   public Member signUpMember(SignUpMemberRequest request) {
@@ -130,5 +137,21 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     friendRepository.delete(toFriend);
     friendRepository.delete(fromFriend);
+  }
+
+  @Override
+  public MemberItem toggleItemUsing(Member member, Long itemId) {
+    Item item =
+        itemRepository
+            .findById(itemId)
+            .orElseThrow(() -> new ItemException(GlobalErrorCode.ITEM_NOT_FOUND));
+    MemberItem memberItem =
+        memberItemRepository
+            .findByMemberAndItem(member, item)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.ITEM_NOT_PURCHASED));
+
+    memberItem.toggleIsUsing();
+
+    return memberItem;
   }
 }

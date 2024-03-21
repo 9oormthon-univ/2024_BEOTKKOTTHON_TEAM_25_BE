@@ -1,6 +1,7 @@
 package com.goormthonuniv.ownearth.service;
 
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
+import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
@@ -20,4 +21,6 @@ public interface MemberCommandService {
   void refuseFriendRequest(Member member, Long requestId);
 
   void deleteFriend(Member member, Long targetMemberId);
+
+  MemberItem toggleItemUsing(Member member, Long itemId);
 }
