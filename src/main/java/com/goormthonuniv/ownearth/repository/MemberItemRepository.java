@@ -14,4 +14,6 @@ public interface MemberItemRepository extends JpaRepository<MemberItem, Long> {
   List<MemberItem> findMemberItemsByMemberIdAndIsUsingTrue(Long memberId);
 
   Optional<MemberItem> findByMemberAndItem(Member member, Item item);
+
+  List<MemberItem> findMemberItemsByMemberId(Long memberId);
 }

@@ -24,4 +24,7 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 
   List<MemberMission> findAllByMemberAndMission_MissionCategoryAndIsCompletedTrue(
       Member member, MissionCategory missionCategory);
+
+  List<MemberMission> findByMemberIdAndCompletedAtBetweenAndIsCompletedTrue(
+      Long memberId, LocalDateTime startDate, LocalDateTime endDate);
 }

@@ -16,6 +16,7 @@ import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberReque
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendEarthStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
@@ -156,6 +157,21 @@ public class MemberConverter {
     return ToggleItemUsingResponse.builder()
         .itemId(memberItem.getItem().getId())
         .isUsing(memberItem.getIsUsing())
+        .build();
+  }
+
+  public static FriendEarthStatusResponse toFriendEarthStatusResponse(
+      List<LocalDate> completedTimes,
+      List<Long> usedFriendItemId,
+      Integer inventoryCount,
+      String earthName,
+      Integer point) {
+    return FriendEarthStatusResponse.builder()
+        .completedTimes(completedTimes)
+        .usedFriendItemId(usedFriendItemId)
+        .inventoryCount(inventoryCount)
+        .earthName(earthName)
+        .point(point)
         .build();
   }
 }

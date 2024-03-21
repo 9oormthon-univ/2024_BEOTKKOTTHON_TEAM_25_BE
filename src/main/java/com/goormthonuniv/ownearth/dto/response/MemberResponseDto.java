@@ -1,5 +1,6 @@
 package com.goormthonuniv.ownearth.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -133,5 +134,17 @@ public class MemberResponseDto {
 
     Long itemId;
     Boolean isUsing;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class FriendEarthStatusResponse {
+    List<LocalDate> completedTimes;
+    List<Long> usedFriendItemId;
+    Integer inventoryCount;
+    String earthName;
+    Integer point;
   }
 }
