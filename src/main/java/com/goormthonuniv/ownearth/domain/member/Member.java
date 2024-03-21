@@ -3,7 +3,16 @@ package com.goormthonuniv.ownearth.domain.member;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import com.goormthonuniv.ownearth.domain.common.BaseEntity;
 import com.goormthonuniv.ownearth.domain.enums.SocialType;
@@ -13,7 +22,11 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -59,10 +72,10 @@ public class Member extends BaseEntity {
   private List<MemberMission> memberMissions = new ArrayList<>();
 
   @OneToMany(mappedBy = "fromMember", cascade = CascadeType.ALL)
-  private List<Friend> aFriends = new ArrayList<>();
+  private List<Friend> fromFriends = new ArrayList<>();
 
   @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
-  private List<Friend> bFriends = new ArrayList<>();
+  private List<Friend> toFriends = new ArrayList<>();
 
   public void updateRefreshToken(String refreshToken) {
     this.refreshToken = refreshToken;

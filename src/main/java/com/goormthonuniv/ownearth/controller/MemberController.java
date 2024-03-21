@@ -34,6 +34,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointRespons
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.ItemCommandService;
@@ -175,7 +176,7 @@ public class MemberController {
   }
 
   @Operation(summary = "친구 삭제 API", description = "친구를 삭제합니다.")
-  @ApiResponse(responseCode = "204")
+  @ApiResponse(responseCode = "204", description = "성공")
   @DeleteMapping("/me/friends/{id}")
   public BaseResponse<Void> deleteFriend(
       @Parameter(hidden = true) @AuthMember Member member,
@@ -194,5 +195,16 @@ public class MemberController {
       @PathVariable(name = "itemId") Long itemId) {
     return BaseResponse.onSuccess(
         ItemConverter.toItemPurchasedResponse(itemCommandService.createMemberItem(itemId, member)));
+  }
+
+  @Operation(summary = "회원 검색 API", description = "회원을 검색합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping
+  public BaseResponse<List<SearchMemberResponse>> searchMembers(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @RequestParam("keyword") String keyword) {
+    List<Member> searchResults = memberQueryService.searchMembers(member, keyword);
+    return BaseResponse.onSuccess(
+        MemberConverter.toSearchMemberResponseList(member, searchResults));
   }
 }

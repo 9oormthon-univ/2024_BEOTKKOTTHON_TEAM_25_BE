@@ -60,7 +60,8 @@ public enum GlobalErrorCode {
   NOT_FRIEND(HttpStatus.BAD_REQUEST, "친구가 아닌 회원입니다."),
 
   // Item
-  ALREADY_PURCHASED(HttpStatus.BAD_REQUEST, "이미 구매한 아이템입니다.");
+  ALREADY_PURCHASED(HttpStatus.BAD_REQUEST, "이미 구매한 아이템입니다."),
+  INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "검색 키워드가 유효하지 않습니다.");
 
   private final HttpStatus httpStatus;
   private final String message;
