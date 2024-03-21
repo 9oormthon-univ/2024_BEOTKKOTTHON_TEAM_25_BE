@@ -11,7 +11,6 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
-import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ReissueResponse;
@@ -158,15 +157,10 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   }
 
   @Override
-  public ReissueResponse reissue(ReissueRequest request) {
-    String refreshToken = request.getRefreshToken();
+  public ReissueResponse reissue(Member member) {
+    String refreshToken = member.getRefreshToken();
 
     Long memberId = jwtAuthProvider.parseRefreshToken(refreshToken);
-
-    Member member =
-        memberRepository
-            .findById(memberId)
-            .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_INFO_NOT_FOUND));
 
     String newAccessToken = jwtAuthProvider.generateAccessToken(member.getId());
     String newRefreshToken = jwtAuthProvider.generateRefreshToken(member.getId());

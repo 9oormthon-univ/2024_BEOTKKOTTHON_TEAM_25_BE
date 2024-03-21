@@ -26,7 +26,6 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
-import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
@@ -241,7 +240,8 @@ public class MemberController {
   @Operation(summary = "reissue API", description = "토큰을 재발급합니다.")
   @ApiResponse(responseCode = "200", description = "성공")
   @PostMapping("/reissue")
-  public BaseResponse<ReissueResponse> reissue(@RequestBody ReissueRequest request) {
-    return BaseResponse.onSuccess(memberCommandService.reissue(request));
+  public BaseResponse<ReissueResponse> reissue(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(memberCommandService.reissue(member));
   }
 }

@@ -5,7 +5,6 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
-import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ReissueResponse;
@@ -22,7 +21,7 @@ public interface MemberCommandService {
 
   void refuseFriendRequest(Member member, Long requestId);
 
-  ReissueResponse reissue(ReissueRequest request);
+  ReissueResponse reissue(Member member);
 
   void deleteFriend(Member member, Long targetMemberId);
 
