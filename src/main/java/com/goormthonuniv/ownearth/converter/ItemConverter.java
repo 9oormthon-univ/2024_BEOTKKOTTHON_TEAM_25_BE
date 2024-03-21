@@ -34,12 +34,13 @@ public class ItemConverter {
   }
 
   public static ItemPurchasedResponse toItemPurchasedResponse(MemberItem memberItem) {
-    memberItem
-        .getMember()
-        .setPoint(memberItem.getMember().getPoint() - memberItem.getItem().getPrice());
     return ItemPurchasedResponse.builder()
         .purchasedId(memberItem.getId())
         .itemId(memberItem.getItem().getId())
         .build();
+  }
+
+  public static MemberItem toMemberItem(Member member, Item item) {
+    return MemberItem.builder().member(member).item(item).build();
   }
 }

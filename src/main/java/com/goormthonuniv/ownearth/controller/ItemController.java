@@ -9,7 +9,6 @@ import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 import com.goormthonuniv.ownearth.service.ItemCommandService;
 import com.goormthonuniv.ownearth.service.ItemQueryService;
@@ -41,17 +40,5 @@ public class ItemController {
     return BaseResponse.onSuccess(
         ItemConverter.toItemResponseList(
             itemQueryService.getItemsByItemCategory(itemCategory), member));
-  }
-
-  @Operation(summary = "아이템 구매 API", description = "아이템을 구매합니다.")
-  @ApiResponses({
-    @ApiResponse(responseCode = "201", description = "성공"),
-  })
-  @PostMapping("/me/{itemId}")
-  public BaseResponse<ItemPurchasedResponse> createMemberItem(
-      @Parameter(hidden = true) @AuthMember Member member,
-      @PathVariable(name = "itemId") Long itemId) {
-    return BaseResponse.onSuccess(
-        ItemConverter.toItemPurchasedResponse(itemCommandService.createMemberItem(itemId, member)));
   }
 }

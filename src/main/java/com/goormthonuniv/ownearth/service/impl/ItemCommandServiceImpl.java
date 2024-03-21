@@ -3,6 +3,7 @@ package com.goormthonuniv.ownearth.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
@@ -30,18 +31,18 @@ public class ItemCommandServiceImpl implements ItemCommandService {
             .findById(itemId)
             .orElseThrow(() -> new ItemException(GlobalErrorCode.ITEM_NOT_FOUND));
 
-    boolean isPurchased =
-        member.getMemberItems().stream()
-            .anyMatch(memberItem -> memberItem.getItem().getId().equals(itemId));
+    Boolean exist = memberItemRepository.findByMemberAndItem(member, item).isPresent();
 
-    if (isPurchased) throw new ItemException(GlobalErrorCode.ALREADY_PURCHASED);
+    if (exist) {
+      throw new ItemException(GlobalErrorCode.ALREADY_PURCHASED);
+    } else {
 
-    if (member.getPoint() < item.getPrice())
-      throw new ItemException(GlobalErrorCode.NOT_ENOUGH_POINTS);
+      if (member.getPoint() < item.getPrice())
+        throw new ItemException(GlobalErrorCode.NOT_ENOUGH_POINTS);
 
-    MemberItem memberItem =
-        MemberItem.builder().item(itemRepository.findById(itemId).get()).member(member).build();
+      member.setPoint(member.getPoint() - item.getPrice());
 
-    return memberItemRepository.save(memberItem);
+      return memberItemRepository.save(ItemConverter.toMemberItem(member, item));
+    }
   }
 }
