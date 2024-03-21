@@ -26,4 +26,13 @@ public class ItemResponseDto {
     ItemCategory itemCategory;
     Boolean isPurchased;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class ItemPurchasedResponse {
+    Long purchasedId;
+    Long itemId;
+  }
 }

@@ -38,7 +38,7 @@ public enum GlobalErrorCode {
   NEED_AGREE_REQUIRE_TERMS(HttpStatus.NOT_FOUND, "필수 약관에 동의해 주세요."),
   MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 사용자가 없습니다."),
   MEMBER_INFO_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 사용자 정보가 없습니다."),
-  BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하는 북마크가 없습니다."),
+  ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하는 아이템이 없습니다."),
 
   // 409 CONFLICT : Resource 를 찾을 수 없음
   DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 이메일이 존재합니다."),
@@ -58,6 +58,9 @@ public enum GlobalErrorCode {
   ALREADY_FRIEND(HttpStatus.BAD_REQUEST, "이미 요청했거나 친구 상태입니다."),
   REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 요청입니다."),
   NOT_FRIEND(HttpStatus.BAD_REQUEST, "친구가 아닌 회원입니다."),
+
+  // Item
+  ALREADY_PURCHASED(HttpStatus.BAD_REQUEST, "이미 구매한 아이템입니다."),
   INVALID_SEARCH_KEYWORD(HttpStatus.BAD_REQUEST, "검색 키워드가 유효하지 않습니다.");
 
   private final HttpStatus httpStatus;
