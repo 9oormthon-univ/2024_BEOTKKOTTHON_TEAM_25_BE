@@ -11,7 +11,7 @@ public class ItemConverter {
   public static ItemResponse toItemResponse(Item item, Member member) {
     boolean isPurchased =
         item.getMemberItems().stream()
-            .anyMatch(memberItem -> memberItem.getMember().getId().equals(member.getId()));
+            .anyMatch(memberItem -> member.getId().equals(memberItem.getMember().getId()));
 
     return ItemResponse.builder()
         .id(item.getId())

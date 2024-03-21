@@ -1,6 +1,7 @@
 package com.goormthonuniv.ownearth.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
+import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 import com.goormthonuniv.ownearth.service.ItemQueryService;
@@ -32,10 +34,13 @@ public class ItemController {
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @GetMapping("/items")
+  @GetMapping("/")
   public BaseResponse<List<ItemResponse>> getItemsByItemCategory(
       @Parameter(hidden = true) @AuthMember Member member,
       @RequestParam("category") String itemCategory) {
-    return BaseResponse.onSuccess(itemQueryService.getItemsByItemCategory(member, itemCategory));
+    return BaseResponse.onSuccess(
+        itemQueryService.getItemsByItemCategory(member, itemCategory).stream()
+            .map(item -> ItemConverter.toItemResponse(item, member))
+            .collect(Collectors.toList()));
   }
 }
