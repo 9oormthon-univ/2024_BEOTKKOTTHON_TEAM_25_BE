@@ -36,7 +36,6 @@ public class MissionController {
     @ApiResponse(responseCode = "200", description = "성공"),
   })
   @GetMapping("/today")
-  @ResponseStatus(HttpStatus.OK)
   public BaseResponse<GetOrAssignMemberMissionResponse> getOrAssignMemberMission(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
+import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
@@ -26,6 +27,7 @@ import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
@@ -38,6 +40,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberRes
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ToggleItemUsingResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
+import com.goormthonuniv.ownearth.service.ItemCommandService;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
 import com.goormthonuniv.ownearth.service.MemberQueryService;
 
@@ -56,6 +59,7 @@ public class MemberController {
 
   private final MemberCommandService memberCommandService;
   private final MemberQueryService memberQueryService;
+  private final ItemCommandService itemCommandService;
 
   @Operation(summary = "회원가입 API", description = "이메일, 비밀번호를 사용해 회원가입을 진행합니다")
   @ApiResponses({
@@ -71,7 +75,7 @@ public class MemberController {
 
   @Operation(summary = "로그인 API", description = "이메일, 비밀번호를 사용한 로그인을 진행합니다")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "성공"),
+    @ApiResponse(responseCode = "201", description = "성공"),
   })
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.CREATED)
@@ -182,6 +186,18 @@ public class MemberController {
       @PathVariable("id") Long targetMemberId) {
     memberCommandService.deleteFriend(member, targetMemberId);
     return BaseResponse.onSuccess(GlobalErrorCode.DELETED, null);
+  }
+
+  @Operation(summary = "아이템 구매 API", description = "아이템을 구매합니다.")
+  @ApiResponses({
+    @ApiResponse(responseCode = "201", description = "성공"),
+  })
+  @PostMapping("/me/items/{itemId}")
+  public BaseResponse<ItemResponseDto.ItemPurchasedResponse> createMemberItem(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @PathVariable(name = "itemId") Long itemId) {
+    return BaseResponse.onSuccess(
+        ItemConverter.toItemPurchasedResponse(itemCommandService.createMemberItem(itemId, member)));
   }
 
   @Operation(summary = "회원 검색 API", description = "회원을 검색합니다.")
