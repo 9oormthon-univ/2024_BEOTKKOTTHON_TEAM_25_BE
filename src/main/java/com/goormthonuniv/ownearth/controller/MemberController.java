@@ -229,7 +229,7 @@ public class MemberController {
       summary = "친구 정보 조회 API",
       description = "친구의 지구 이름, 사용 아이템, 포인트, 보유 아이템 수, 지난 7일간 달성한 미션을 조회합니다.")
   @ApiResponse(responseCode = "200", description = "성공")
-  @GetMapping("/me/friend/earth/{friendId}")
+  @GetMapping("/me/friend/{friendId}/earth")
   public BaseResponse<FriendEarthStatusResponse> getFriendEarthStatus(
       @Parameter(hidden = true) @AuthMember Member member,
       @PathVariable("friendId") Long friendId) {
