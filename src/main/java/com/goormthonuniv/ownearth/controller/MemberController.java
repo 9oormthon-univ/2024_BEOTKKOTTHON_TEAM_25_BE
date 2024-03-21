@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
+import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
@@ -36,6 +38,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionS
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ToggleItemUsingResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.ItemCommandService;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
@@ -206,5 +209,18 @@ public class MemberController {
     List<Member> searchResults = memberQueryService.searchMembers(member, keyword);
     return BaseResponse.onSuccess(
         MemberConverter.toSearchMemberResponseList(member, searchResults));
+  }
+
+  @Operation(
+      summary = "아이템 사용/해제 API",
+      description = "아이템을 사용 중이라면 사용 해제, 사용 중이지 않다면 사용 중으로 변경합니다.")
+  @ApiResponse(responseCode = "202", description = "성공")
+  @PatchMapping("/me/items/{id}/using")
+  public BaseResponse<ToggleItemUsingResponse> toggleItemUsing(
+      @Parameter(hidden = true) @AuthMember Member member, @PathVariable("id") Long itemId) {
+    MemberItem memberItem = memberCommandService.toggleItemUsing(member, itemId);
+
+    return BaseResponse.onSuccess(
+        GlobalErrorCode.UPDATED, MemberConverter.toToggleItemUsingResponse(memberItem));
   }
 }

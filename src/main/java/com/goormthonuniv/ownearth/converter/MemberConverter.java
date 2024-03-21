@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.goormthonuniv.ownearth.domain.Mission;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
+import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
@@ -23,6 +24,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionS
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ToggleItemUsingResponse;
 
 @Component
 public class MemberConverter {
@@ -147,6 +149,13 @@ public class MemberConverter {
         .name(searchMember.getName())
         .earthName(searchMember.getEarthName())
         .isFriend(friend != null ? friend.getIsFriend() : false)
+        .build();
+  }
+
+  public static ToggleItemUsingResponse toToggleItemUsingResponse(MemberItem memberItem) {
+    return ToggleItemUsingResponse.builder()
+        .itemId(memberItem.getItem().getId())
+        .isUsing(memberItem.getIsUsing())
         .build();
   }
 }

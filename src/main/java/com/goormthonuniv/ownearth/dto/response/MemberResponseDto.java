@@ -124,4 +124,14 @@ public class MemberResponseDto {
     String earthName;
     Boolean isFriend;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class ToggleItemUsingResponse {
+
+    Long itemId;
+    Boolean isUsing;
+  }
 }
