@@ -1,5 +1,8 @@
 package com.goormthonuniv.ownearth.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.goormthonuniv.ownearth.domain.Item;
@@ -8,10 +11,10 @@ import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 
 @Component
 public class ItemConverter {
-  public static ItemResponse toItemResponse(Item item, Member member) {
+  private static ItemResponse toItemResponse(Item item, Member member) {
     boolean isPurchased =
-        item.getMemberItems().stream()
-            .anyMatch(memberItem -> member.getId().equals(memberItem.getMember().getId()));
+        member.getMemberItems().stream()
+            .anyMatch(memberItem -> memberItem.getItem().getId().equals(item.getId()));
 
     return ItemResponse.builder()
         .id(item.getId())
@@ -20,5 +23,11 @@ public class ItemConverter {
         .itemCategory(item.getItemCategory())
         .isPurchased(isPurchased)
         .build();
+  }
+
+  public static List<ItemResponse> toItemResponseList(List<Item> items, Member member) {
+    return items.stream()
+        .map(item -> ItemConverter.toItemResponse(item, member))
+        .collect(Collectors.toList());
   }
 }
