@@ -20,7 +20,8 @@ public class MemberItem extends BaseEntity {
   private Long id;
 
   @Column(nullable = false)
-  private Boolean isUsing;
+  @Builder.Default
+  private Boolean isUsing = false;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")

@@ -67,7 +67,7 @@ public class MemberController {
 
   @Operation(summary = "로그인 API", description = "이메일, 비밀번호를 사용한 로그인을 진행합니다")
   @ApiResponses({
-    @ApiResponse(responseCode = "200", description = "성공"),
+    @ApiResponse(responseCode = "201", description = "성공"),
   })
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.CREATED)

@@ -2,17 +2,16 @@ package com.goormthonuniv.ownearth.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
+import com.goormthonuniv.ownearth.service.ItemCommandService;
 import com.goormthonuniv.ownearth.service.ItemQueryService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ItemController {
 
   private final ItemQueryService itemQueryService;
+  private final ItemCommandService itemCommandService;
 
   @Operation(summary = "아이템 목록 조회 API", description = "아이템을 카테고리별로 조회합니다")
   @ApiResponses({
@@ -41,5 +41,17 @@ public class ItemController {
     return BaseResponse.onSuccess(
         ItemConverter.toItemResponseList(
             itemQueryService.getItemsByItemCategory(itemCategory), member));
+  }
+
+  @Operation(summary = "아이템 구매 API", description = "아이템을 구매합니다.")
+  @ApiResponses({
+    @ApiResponse(responseCode = "201", description = "성공"),
+  })
+  @PostMapping("/purchase/{itemId}")
+  public BaseResponse<ItemPurchasedResponse> createMemberItem(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @PathVariable(name = "itemId") Long itemId) {
+    return BaseResponse.onSuccess(
+        ItemConverter.toItemPurchasedResponse(itemCommandService.createMemberItem(itemId, member)));
   }
 }

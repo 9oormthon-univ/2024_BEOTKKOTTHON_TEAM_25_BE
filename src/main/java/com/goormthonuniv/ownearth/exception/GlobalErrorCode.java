@@ -57,7 +57,10 @@ public enum GlobalErrorCode {
   MISSION_QUERY_CONDITION_INCORRECT(HttpStatus.BAD_REQUEST, "조회 조건이 올바르지 않습니다."),
   ALREADY_FRIEND(HttpStatus.BAD_REQUEST, "이미 요청했거나 친구 상태입니다."),
   REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 요청입니다."),
-  NOT_FRIEND(HttpStatus.BAD_REQUEST, "친구가 아닌 회원입니다.");
+  NOT_FRIEND(HttpStatus.BAD_REQUEST, "친구가 아닌 회원입니다."),
+
+  // Item
+  ALREADY_PURCHASED(HttpStatus.BAD_REQUEST, "이미 구매한 아이템입니다.");
 
   private final HttpStatus httpStatus;
   private final String message;

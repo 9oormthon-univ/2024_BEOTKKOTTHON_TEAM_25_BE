@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.goormthonuniv.ownearth.domain.Item;
+import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 
 @Component
@@ -29,5 +31,12 @@ public class ItemConverter {
     return items.stream()
         .map(item -> ItemConverter.toItemResponse(item, member))
         .collect(Collectors.toList());
+  }
+
+  public static ItemPurchasedResponse toItemPurchasedResponse(MemberItem memberItem) {
+    return ItemPurchasedResponse.builder()
+        .purchasedId(memberItem.getId())
+        .itemId(memberItem.getItem().getId())
+        .build();
   }
 }

@@ -78,4 +78,8 @@ public class Member extends BaseEntity {
     }
     this.point -= 10;
   }
+
+  public void setPoint(Integer point) {
+    this.point = point;
+  }
 }
