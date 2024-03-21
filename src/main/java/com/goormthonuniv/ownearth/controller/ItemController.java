@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.ItemConverter;
+import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 import com.goormthonuniv.ownearth.service.ItemQueryService;
@@ -36,7 +37,7 @@ public class ItemController {
   @GetMapping("/")
   public BaseResponse<List<ItemResponse>> getItemsByItemCategory(
       @Parameter(hidden = true) @AuthMember Member member,
-      @RequestParam("category") String itemCategory) {
+      @RequestParam("category") ItemCategory itemCategory) {
     return BaseResponse.onSuccess(
         ItemConverter.toItemResponseList(
             itemQueryService.getItemsByItemCategory(itemCategory), member));

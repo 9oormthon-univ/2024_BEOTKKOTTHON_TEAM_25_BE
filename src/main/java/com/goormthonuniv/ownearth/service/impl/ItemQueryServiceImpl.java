@@ -20,7 +20,7 @@ public class ItemQueryServiceImpl implements ItemQueryService {
   private final ItemRepository itemRepository;
 
   @Override
-  public List<Item> getItemsByItemCategory(String itemCategory) {
-    return itemRepository.findItemsByItemCategory(ItemCategory.valueOf(itemCategory));
+  public List<Item> getItemsByItemCategory(ItemCategory itemCategory) {
+    return itemRepository.findItemsByItemCategory(itemCategory);
   }
 }
