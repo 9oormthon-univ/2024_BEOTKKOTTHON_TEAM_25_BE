@@ -25,4 +25,9 @@ public class MemberRequestDto {
 
     Long requestId;
   }
+
+  @Getter
+  public static class ReissueRequest {
+    String refreshToken;
+  }
 }

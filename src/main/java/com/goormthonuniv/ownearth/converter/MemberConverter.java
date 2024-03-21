@@ -22,6 +22,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthRespons
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ReissueResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
@@ -172,6 +173,15 @@ public class MemberConverter {
         .inventoryCount(inventoryCount)
         .earthName(earthName)
         .point(point)
+        .build();
+  }
+
+  public static ReissueResponse toReissueResponse(
+      Long memberId, String newAccessToken, String newRefreshToken) {
+    return ReissueResponse.builder()
+        .memberId(memberId)
+        .accessToken(newAccessToken)
+        .refreshToken(newRefreshToken)
         .build();
   }
 }
