@@ -48,6 +48,7 @@ public class MissionController {
   @PostMapping(
       value = "/{missionId}/completed",
       consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+  @ResponseStatus(HttpStatus.CREATED)
   public BaseResponse<MissionResultDto> accomplishMission(
       @Parameter(hidden = true) @AuthMember Member member,
       @PathVariable("missionId") Long missionId,

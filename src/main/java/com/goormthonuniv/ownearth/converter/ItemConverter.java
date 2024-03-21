@@ -34,6 +34,9 @@ public class ItemConverter {
   }
 
   public static ItemPurchasedResponse toItemPurchasedResponse(MemberItem memberItem) {
+    memberItem
+        .getMember()
+        .setPoint(memberItem.getMember().getPoint() - memberItem.getItem().getPrice());
     return ItemPurchasedResponse.builder()
         .purchasedId(memberItem.getId())
         .itemId(memberItem.getItem().getId())

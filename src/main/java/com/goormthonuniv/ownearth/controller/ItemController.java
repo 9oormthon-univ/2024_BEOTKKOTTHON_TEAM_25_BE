@@ -47,7 +47,7 @@ public class ItemController {
   @ApiResponses({
     @ApiResponse(responseCode = "201", description = "성공"),
   })
-  @PostMapping("/purchase/{itemId}")
+  @PostMapping("/me/{itemId}")
   public BaseResponse<ItemPurchasedResponse> createMemberItem(
       @Parameter(hidden = true) @AuthMember Member member,
       @PathVariable(name = "itemId") Long itemId) {

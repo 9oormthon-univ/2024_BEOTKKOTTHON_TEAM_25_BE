@@ -25,18 +25,19 @@ public class ItemCommandServiceImpl implements ItemCommandService {
   @Override
   public MemberItem createMemberItem(Long itemId, Member member) {
 
-    Item item = itemRepository.findById(itemId).get();
+    Item item =
+        itemRepository
+            .findById(itemId)
+            .orElseThrow(() -> new ItemException(GlobalErrorCode.ITEM_NOT_FOUND));
 
     boolean isPurchased =
         member.getMemberItems().stream()
-            .anyMatch(memberItem -> memberItem.getMember().getId().equals(member.getId()));
+            .anyMatch(memberItem -> memberItem.getItem().getId().equals(itemId));
 
     if (isPurchased) throw new ItemException(GlobalErrorCode.ALREADY_PURCHASED);
 
     if (member.getPoint() < item.getPrice())
       throw new ItemException(GlobalErrorCode.NOT_ENOUGH_POINTS);
-
-    member.setPoint(member.getPoint() - item.getPrice());
 
     MemberItem memberItem =
         MemberItem.builder().item(itemRepository.findById(itemId).get()).member(member).build();

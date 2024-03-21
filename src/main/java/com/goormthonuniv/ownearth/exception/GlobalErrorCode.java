@@ -38,7 +38,7 @@ public enum GlobalErrorCode {
   NEED_AGREE_REQUIRE_TERMS(HttpStatus.NOT_FOUND, "필수 약관에 동의해 주세요."),
   MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 사용자가 없습니다."),
   MEMBER_INFO_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 사용자 정보가 없습니다."),
-  BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하는 북마크가 없습니다."),
+  ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하는 아이템이 없습니다."),
 
   // 409 CONFLICT : Resource 를 찾을 수 없음
   DUPLICATE_EMAIL(HttpStatus.CONFLICT, "중복된 이메일이 존재합니다."),
