@@ -21,6 +21,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointRespons
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 
 @Component
@@ -28,6 +29,7 @@ public class MemberConverter {
 
   public static SignUpMemberResponse toSignUpMemberResponse(Member member) {
     return SignUpMemberResponse.builder()
+        .memberId(member.getId())
         .email(member.getEmail())
         .name(member.getName())
         .earthName(member.getEarthName())
@@ -123,6 +125,28 @@ public class MemberConverter {
         .requestId(request.getId())
         .memberId(request.getFromMember().getId())
         .name(request.getFromMember().getName())
+        .build();
+  }
+
+  public static List<SearchMemberResponse> toSearchMemberResponseList(
+      Member member, List<Member> searchMembers) {
+    return searchMembers.stream()
+        .map(searchMember -> toSearchMemberResponse(member, searchMember))
+        .toList();
+  }
+
+  private static SearchMemberResponse toSearchMemberResponse(Member member, Member searchMember) {
+    Friend friend =
+        searchMember.getToFriends().stream()
+            .filter(toFriend -> toFriend.getFromMember().equals(member))
+            .findFirst()
+            .orElse(null);
+
+    return SearchMemberResponse.builder()
+        .memberId(searchMember.getId())
+        .name(searchMember.getName())
+        .earthName(searchMember.getEarthName())
+        .isFriend(friend != null ? friend.getIsFriend() : false)
         .build();
   }
 }
