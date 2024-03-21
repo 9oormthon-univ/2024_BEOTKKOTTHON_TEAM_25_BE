@@ -109,6 +109,19 @@ public class MemberResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class GetPointResponse {
+
     Integer point;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class SearchMemberResponse {
+
+    Long memberId;
+    String name;
+    String earthName;
+    Boolean isFriend;
   }
 }

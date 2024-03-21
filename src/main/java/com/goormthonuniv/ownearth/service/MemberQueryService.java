@@ -7,7 +7,7 @@ import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.*;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 
 public interface MemberQueryService {
@@ -24,4 +24,6 @@ public interface MemberQueryService {
   List<Friend> getFriendRequests(Member member);
 
   GetEarthResponse getEarthStatus(Member member);
+
+  List<Member> searchMembers(Member member, String keyword);
 }
