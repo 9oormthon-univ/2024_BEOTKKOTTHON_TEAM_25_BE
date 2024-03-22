@@ -10,16 +10,6 @@ import lombok.NoArgsConstructor;
 
 public class MissionResponseDto {
 
-  @Getter
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class GetOrAssignMemberMissionResponse {
-
-    Long missionId;
-    String content;
-  }
-
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @Getter
@@ -35,6 +25,7 @@ public class MissionResponseDto {
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class MissionResponse {
 
+    Long missionId;
     String content;
     MissionCategory missionCategory;
   }
