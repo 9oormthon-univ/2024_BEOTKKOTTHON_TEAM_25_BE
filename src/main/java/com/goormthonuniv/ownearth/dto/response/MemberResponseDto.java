@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -90,9 +89,12 @@ public class MemberResponseDto {
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class GetEarthResponse {
 
-    List<ItemIdCategory> usingItems;
+    List<Long> usingItems;
     String earthName;
     Long createdAt;
+    List<LocalDate> completedTimes;
+    Integer inventoryCount;
+    Integer accumulatedPoint;
   }
 
   @Getter
@@ -134,17 +136,5 @@ public class MemberResponseDto {
 
     Long itemId;
     Boolean isUsing;
-  }
-
-  @Getter
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class FriendEarthStatusResponse {
-    List<LocalDate> completedTimes;
-    List<Long> usedFriendItemId;
-    Integer inventoryCount;
-    String earthName;
-    Integer point;
   }
 }

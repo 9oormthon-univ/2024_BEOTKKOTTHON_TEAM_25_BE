@@ -30,7 +30,6 @@ import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberReque
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendEarthStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
@@ -139,14 +138,17 @@ public class MemberController {
     return BaseResponse.onSuccess(MemberConverter.toFriendRequestResponseList(requests));
   }
 
-  @Operation(summary = "내 지구 상태 조회 API", description = "지구 이름, 사용 아이템, 가입한 기간, 할당된 미션을 조회합니다")
+  @Operation(
+      summary = "내 지구 상태 조회 API",
+      description = "지구 이름, 사용 아이템, 가입한 기간, 월간 누적포인트, 보유 아이템 수를 조회합니다")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @GetMapping("/earth")
+  @GetMapping("/{memberId}/earth")
   public BaseResponse<GetEarthResponse> getMyEarthStatus(
-      @Parameter(hidden = true) @AuthMember Member member) {
-    return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member));
+      @Parameter(hidden = true) @AuthMember Member member,
+      @PathVariable(name = "memberId") Long memberId) {
+    return BaseResponse.onSuccess(memberQueryService.getEarthStatus(member, memberId));
   }
 
   @Operation(summary = "친구 요청 수락 API", description = "친구 요청을 수락합니다.")
@@ -223,16 +225,5 @@ public class MemberController {
 
     return BaseResponse.onSuccess(
         GlobalErrorCode.UPDATED, MemberConverter.toToggleItemUsingResponse(memberItem));
-  }
-
-  @Operation(
-      summary = "친구 정보 조회 API",
-      description = "친구의 지구 이름, 사용 아이템, 포인트, 보유 아이템 수, 지난 7일간 달성한 미션을 조회합니다.")
-  @ApiResponse(responseCode = "200", description = "성공")
-  @GetMapping("/me/friend/{friendId}/earth")
-  public BaseResponse<FriendEarthStatusResponse> getFriendEarthStatus(
-      @Parameter(hidden = true) @AuthMember Member member,
-      @PathVariable("friendId") Long friendId) {
-    return BaseResponse.onSuccess(memberQueryService.getFriendEarthStatus(member, friendId));
   }
 }
