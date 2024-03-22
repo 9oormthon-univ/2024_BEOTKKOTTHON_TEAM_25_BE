@@ -31,7 +31,7 @@ public class MemberResponseDto {
   @Builder
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class LoginMemberResponse {
+  public static class TokenResponse {
 
     Long memberId;
     String accessToken;
@@ -146,15 +146,5 @@ public class MemberResponseDto {
     Integer inventoryCount;
     String earthName;
     Integer point;
-  }
-
-  @Getter
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class ReissueResponse {
-    Long memberId;
-    String accessToken;
-    String refreshToken;
   }
 }

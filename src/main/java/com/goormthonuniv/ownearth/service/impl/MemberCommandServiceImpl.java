@@ -11,9 +11,9 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ReissueResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.TokenResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.ItemException;
 import com.goormthonuniv.ownearth.exception.MemberException;
@@ -52,7 +52,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   }
 
   @Override
-  public LoginMemberResponse login(LoginMemberRequest request) {
+  public TokenResponse login(LoginMemberRequest request) {
     Member member =
         memberRepository
             .findByEmail(request.getEmail())
@@ -157,14 +157,16 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   }
 
   @Override
-  public ReissueResponse reissue(Member member) {
-    String refreshToken = member.getRefreshToken();
+  public TokenResponse reissue(Member member, ReissueRequest request) {
+    String refreshToken = request.getRefreshToken();
 
-    Long memberId = jwtAuthProvider.parseRefreshToken(refreshToken);
+    if (member.getRefreshToken().equals(refreshToken)) {
+      Long memberId = jwtAuthProvider.parseRefreshToken(refreshToken);
 
-    String newAccessToken = jwtAuthProvider.generateAccessToken(member.getId());
-    String newRefreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
+      String newAccessToken = jwtAuthProvider.generateAccessToken(member.getId());
+      String newRefreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
 
-    return MemberConverter.toReissueResponse(memberId, newAccessToken, newRefreshToken);
+      return MemberConverter.toReissueResponse(memberId, newAccessToken, newRefreshToken);
+    } else throw new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND);
   }
 }
