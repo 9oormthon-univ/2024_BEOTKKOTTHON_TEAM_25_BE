@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.goormthonuniv.ownearth.aws.s3.S3Client;
+import com.goormthonuniv.ownearth.converter.MissionConverter;
 import com.goormthonuniv.ownearth.domain.Mission;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
@@ -46,12 +47,8 @@ public class MissionCommandServiceImpl implements MissionCommandService {
             () -> {
               member.setIsMissionChangeable(true);
 
-              MemberMission newMission =
-                  MemberMission.builder()
-                      .member(member)
-                      .mission(missionRepository.findRandomMission())
-                      .build();
-              return memberMissionRepository.save(newMission);
+              return memberMissionRepository.save(
+                  MissionConverter.toMemberMission(member, missionRepository.findRandomMission()));
             });
   }
 

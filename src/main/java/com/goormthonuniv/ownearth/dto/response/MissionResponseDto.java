@@ -28,5 +28,6 @@ public class MissionResponseDto {
     Long missionId;
     String content;
     MissionCategory missionCategory;
+    Boolean isCompleted;
   }
 }
