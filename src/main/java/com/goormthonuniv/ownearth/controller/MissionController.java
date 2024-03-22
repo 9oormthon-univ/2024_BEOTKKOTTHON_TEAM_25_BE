@@ -17,7 +17,6 @@ import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.MissionConverter;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.GetOrAssignMemberMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.MissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MissionResponseDto.MissionResultDto;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
@@ -43,11 +42,10 @@ public class MissionController {
     @ApiResponse(responseCode = "200", description = "성공"),
   })
   @GetMapping("/today")
-  public BaseResponse<GetOrAssignMemberMissionResponse> getOrAssignMemberMission(
+  public BaseResponse<MissionResponse> getOrAssignMemberMission(
       @Parameter(hidden = true) @AuthMember Member member) {
     return BaseResponse.onSuccess(
-        MissionConverter.toGetOrAssignMemberMission(
-            missionCommandService.getOrAssignMission(member)));
+        MissionConverter.toMissionResponse(missionCommandService.getOrAssignMission(member)));
   }
 
   @Operation(summary = "미션 수행 API", description = "미션 수행 사진을 받아 수행 여부를 결정합니다.")
