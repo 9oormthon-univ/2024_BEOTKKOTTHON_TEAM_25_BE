@@ -13,10 +13,8 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendEarthStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
@@ -111,11 +109,19 @@ public class MemberConverter {
   }
 
   public static GetEarthResponse toGetEarthResponse(
-      List<ItemIdCategory> usingItems, String earthName, Long createdAt) {
+      List<Long> usingItems,
+      String earthName,
+      Long createdAt,
+      List<LocalDate> completedTimes,
+      Integer inventoryCount,
+      Integer point) {
     return GetEarthResponse.builder()
         .usingItems(usingItems)
         .earthName(earthName)
         .createdAt(createdAt)
+        .completedTimes(completedTimes)
+        .inventoryCount(inventoryCount)
+        .accumulatedPoint(point)
         .build();
   }
 
@@ -157,21 +163,6 @@ public class MemberConverter {
     return ToggleItemUsingResponse.builder()
         .itemId(memberItem.getItem().getId())
         .isUsing(memberItem.getIsUsing())
-        .build();
-  }
-
-  public static FriendEarthStatusResponse toFriendEarthStatusResponse(
-      List<LocalDate> completedTimes,
-      List<Long> usedFriendItemId,
-      Integer inventoryCount,
-      String earthName,
-      Integer point) {
-    return FriendEarthStatusResponse.builder()
-        .completedTimes(completedTimes)
-        .usedFriendItemId(usedFriendItemId)
-        .inventoryCount(inventoryCount)
-        .earthName(earthName)
-        .point(point)
         .build();
   }
 

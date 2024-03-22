@@ -17,8 +17,6 @@ import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemIdCategory;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendEarthStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
@@ -101,25 +99,53 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     }
   }
 
-  public GetEarthResponse getEarthStatus(Member member) {
+  public GetEarthResponse getEarthStatus(Member member, Long memberId) {
+
+    if (!(member.getId().equals(memberId))) {
+      friendRepository
+          .findByToMemberIdAndFromMemberAndIsFriendTrue(memberId, member)
+          .orElseThrow(() -> new MemberException(GlobalErrorCode.FRIEND_NOT_FOUND));
+    }
+
+    Member who =
+        memberRepository
+            .findById(memberId)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND));
 
     List<MemberItem> usedMemberItems =
-        memberItemRepository.findMemberItemsByMemberIdAndIsUsingTrue(member.getId());
+        memberItemRepository.findMemberItemsByMemberIdAndIsUsingTrue(memberId);
 
-    List<ItemIdCategory> usingItems =
+    List<Long> usingItems =
         usedMemberItems.stream()
-            .map(
-                memberItem ->
-                    new ItemIdCategory(
-                        memberItem.getItem().getId(), memberItem.getItem().getItemCategory()))
+            .map(MemberItem::getItem)
+            .map(Item::getId)
             .collect(Collectors.toList());
 
     LocalDateTime now = LocalDateTime.now();
 
-    Long createdAt =
-        ChronoUnit.DAYS.between(member.getCreatedAt().toLocalDate(), now.toLocalDate());
+    Long createdAt = ChronoUnit.DAYS.between(who.getCreatedAt().toLocalDate(), now.toLocalDate());
 
-    return MemberConverter.toGetEarthResponse(usingItems, member.getEarthName(), createdAt);
+    LocalDateTime lastSevenDayAgo = now.minusDays(7).truncatedTo(ChronoUnit.DAYS);
+
+    List<MemberMission> memberMissions =
+        memberMissionRepository.findByMemberIdAndCompletedAtBetweenAndIsCompletedTrue(
+            memberId, lastSevenDayAgo, LocalDateTime.now());
+
+    List<LocalDate> completedTimes =
+        memberMissions.stream()
+            .map(MemberMission::getCompletedAt)
+            .map(LocalDateTime::toLocalDate)
+            .collect(Collectors.toList());
+
+    Integer inventoryCount = memberItemRepository.findMemberItemsByMemberId(memberId).size();
+
+    return MemberConverter.toGetEarthResponse(
+        usingItems,
+        who.getEarthName(),
+        createdAt,
+        completedTimes,
+        inventoryCount,
+        who.getMonthlyPoint());
   }
 
   @Override
@@ -133,41 +159,5 @@ public class MemberQueryServiceImpl implements MemberQueryService {
       throw new MemberException(GlobalErrorCode.INVALID_SEARCH_KEYWORD);
     }
     return memberRepository.findByEarthNameContainsAndIdNot(keyword, member.getId());
-  }
-
-  @Override
-  public FriendEarthStatusResponse getFriendEarthStatus(Member member, Long friendId) {
-
-    friendRepository
-        .findByToMemberIdAndFromMemberAndIsFriendTrue(friendId, member)
-        .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND));
-
-    // 해당 LocalDateTime의 0시 0분 0초를 기준으로 7일 전
-    LocalDateTime lastSevenDayAgo = LocalDateTime.now().minusDays(7).truncatedTo(ChronoUnit.DAYS);
-
-    List<MemberMission> memberMissions =
-        memberMissionRepository.findByMemberIdAndCompletedAtBetweenAndIsCompletedTrue(
-            friendId, lastSevenDayAgo, LocalDateTime.now());
-
-    List<LocalDate> completedTimes =
-        memberMissions.stream()
-            .map(MemberMission::getCompletedAt)
-            .map(LocalDateTime::toLocalDate)
-            .collect(Collectors.toList());
-
-    List<Long> usedFriendItemId =
-        memberItemRepository.findMemberItemsByMemberIdAndIsUsingTrue(friendId).stream()
-            .map(MemberItem::getItem)
-            .map(Item::getId)
-            .collect(Collectors.toList());
-
-    Integer inventoryCount = memberItemRepository.findMemberItemsByMemberId(friendId).size();
-
-    String earthName = findMemberById(friendId).getEarthName();
-
-    Integer point = findMemberById(friendId).getPoint();
-
-    return MemberConverter.toFriendEarthStatusResponse(
-        completedTimes, usedFriendItemId, inventoryCount, earthName, point);
   }
 }
