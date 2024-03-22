@@ -249,10 +249,10 @@ public class MemberController {
 
   @Operation(summary = "보유 아이템 조회 API", description = "보유 중인 아이템을 카테고리로 검색하여 보여줍니다")
   @ApiResponse(responseCode = "200", description = "성공")
-  @GetMapping("/me/inventory/{itemCategory}")
+  @GetMapping("/me/inventory/")
   public BaseResponse<List<InventoryItemResponse>> getMyInventoryItem(
       @Parameter(hidden = true) @AuthMember Member member,
-      @PathVariable(name = "itemCategory") ItemCategory itemCategory) {
+      @RequestParam("category") ItemCategory itemCategory) {
     return BaseResponse.onSuccess(memberQueryService.getMyInventoryItem(member, itemCategory));
   }
 }
