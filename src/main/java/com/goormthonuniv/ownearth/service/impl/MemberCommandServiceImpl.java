@@ -100,7 +100,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
       throw new MemberException(GlobalErrorCode.ALREADY_FRIEND);
     }
 
-    Friend friend = MemberConverter.toFriend(member, friendRequest.getToMember(), true);
+    Friend friend = MemberConverter.toFriend(member, friendRequest.getFromMember(), true);
     friendRequest.setIsFriend(true);
 
     return friendRepository.save(friend);
