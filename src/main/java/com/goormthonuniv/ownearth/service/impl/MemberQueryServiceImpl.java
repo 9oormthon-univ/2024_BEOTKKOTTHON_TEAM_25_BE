@@ -126,7 +126,8 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     LocalDateTime now = LocalDateTime.now();
 
-    Long createdAt = ChronoUnit.DAYS.between(who.getCreatedAt().toLocalDate(), now.toLocalDate());
+    Long createdAt =
+        ChronoUnit.DAYS.between(who.getCreatedAt().toLocalDate(), now.toLocalDate()) + 1;
 
     LocalDateTime lastSevenDayAgo = now.minusDays(7).truncatedTo(ChronoUnit.DAYS);
 

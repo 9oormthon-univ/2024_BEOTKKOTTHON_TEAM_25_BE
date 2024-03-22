@@ -121,7 +121,7 @@ public class MemberConverter {
     return GetEarthResponse.builder()
         .usingItems(usingItems)
         .earthName(earthName)
-        .createdAt(createdAt)
+        .withDays(createdAt)
         .completedTimes(completedTimes)
         .inventoryCount(inventoryCount)
         .accumulatedPoint(point)
