@@ -23,6 +23,13 @@ public class MemberResponseDto {
     Long memberId;
     String email;
     String name;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class EarthNameResponse {
     String earthName;
   }
 

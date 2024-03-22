@@ -15,6 +15,7 @@ import com.goormthonuniv.ownearth.domain.member.Password;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.EarthNameResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
@@ -33,7 +34,6 @@ public class MemberConverter {
         .memberId(member.getId())
         .email(member.getEmail())
         .name(member.getName())
-        .earthName(member.getEarthName())
         .build();
   }
 
@@ -45,8 +45,11 @@ public class MemberConverter {
         .email(request.getEmail())
         .password(Password.encrypt(request.getPassword(), encoder))
         .name(request.getName())
-        .earthName(request.getEarthName())
         .build();
+  }
+
+  public static EarthNameResponse toEarthNameResponse(String earthName) {
+    return EarthNameResponse.builder().earthName(earthName).build();
   }
 
   public static TokenResponse toLoginMemberResponse(

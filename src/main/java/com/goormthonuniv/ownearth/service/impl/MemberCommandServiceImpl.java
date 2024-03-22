@@ -12,7 +12,9 @@ import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SetEarthNameRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.EarthNameResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.TokenResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.ItemException;
@@ -49,6 +51,16 @@ public class MemberCommandServiceImpl implements MemberCommandService {
             });
 
     return memberRepository.save(MemberConverter.toMember(request));
+  }
+
+  @Override
+  public EarthNameResponse setEarthName(Member member, SetEarthNameRequest request) {
+
+    if (member.getEarthName() == null) {
+      member.setEarthName(request.getEarthName());
+      return MemberConverter.toEarthNameResponse(request.getEarthName());
+    }
+    throw new MemberException(GlobalErrorCode.ALREADY_SET_EARTHNAME);
   }
 
   @Override
