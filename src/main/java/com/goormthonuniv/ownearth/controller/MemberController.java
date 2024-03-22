@@ -139,7 +139,7 @@ public class MemberController {
   }
 
   @Operation(
-      summary = "내 지구 상태 조회 API",
+      summary = "지구 상태 조회 API",
       description = "지구 이름, 사용 아이템, 가입한 기간, 월간 누적포인트, 보유 아이템 수를 조회합니다")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),

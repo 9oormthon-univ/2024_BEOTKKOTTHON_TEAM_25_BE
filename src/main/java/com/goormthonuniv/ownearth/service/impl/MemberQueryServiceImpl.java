@@ -107,7 +107,10 @@ public class MemberQueryServiceImpl implements MemberQueryService {
           .orElseThrow(() -> new MemberException(GlobalErrorCode.FRIEND_NOT_FOUND));
     }
 
-    Member who = memberRepository.findById(memberId).get();
+    Member who =
+        memberRepository
+            .findById(memberId)
+            .orElseThrow(() -> new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND));
 
     List<MemberItem> usedMemberItems =
         memberItemRepository.findMemberItemsByMemberIdAndIsUsingTrue(memberId);
