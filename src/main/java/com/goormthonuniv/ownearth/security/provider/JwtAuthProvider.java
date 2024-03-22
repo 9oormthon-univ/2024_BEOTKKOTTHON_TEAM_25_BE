@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.goormthonuniv.ownearth.exception.AuthException;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
+import com.goormthonuniv.ownearth.exception.GlobalException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -81,5 +82,13 @@ public class JwtAuthProvider {
         | IllegalArgumentException e) {
       throw new AuthException(GlobalErrorCode.INVALID_TOKEN);
     }
+  }
+
+  public Long parseRefreshToken(String token) {
+    if (isTokenValid(token)) {
+      Claims claims = getClaims(token).getBody();
+      return Long.parseLong(claims.getSubject());
+    }
+    throw new GlobalException(GlobalErrorCode.INVALID_TOKEN);
   }
 }

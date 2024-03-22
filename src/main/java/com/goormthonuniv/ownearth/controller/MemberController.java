@@ -26,6 +26,7 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
@@ -33,12 +34,12 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissio
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ToggleItemUsingResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.TokenResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.service.ItemCommandService;
 import com.goormthonuniv.ownearth.service.MemberCommandService;
@@ -79,7 +80,7 @@ public class MemberController {
   })
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.CREATED)
-  public BaseResponse<LoginMemberResponse> loginMember(@RequestBody LoginMemberRequest request) {
+  public BaseResponse<TokenResponse> loginMember(@RequestBody LoginMemberRequest request) {
     return BaseResponse.onSuccess(GlobalErrorCode.CREATED, memberCommandService.login(request));
   }
 
@@ -225,5 +226,13 @@ public class MemberController {
 
     return BaseResponse.onSuccess(
         GlobalErrorCode.UPDATED, MemberConverter.toToggleItemUsingResponse(memberItem));
+  }
+
+  @Operation(summary = "reissue API", description = "토큰을 재발급합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @PostMapping("/reissue")
+  public BaseResponse<TokenResponse> reissue(
+      @Parameter(hidden = true) @AuthMember Member member, @RequestBody ReissueRequest request) {
+    return BaseResponse.onSuccess(memberCommandService.reissue(member, request));
   }
 }
