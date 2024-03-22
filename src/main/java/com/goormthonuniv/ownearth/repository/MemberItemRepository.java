@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.goormthonuniv.ownearth.domain.Item;
+import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 
@@ -16,4 +17,7 @@ public interface MemberItemRepository extends JpaRepository<MemberItem, Long> {
   Optional<MemberItem> findByMemberAndItem(Member member, Item item);
 
   List<MemberItem> findMemberItemsByMemberId(Long memberId);
+
+  List<MemberItem> findMemberItemsByMemberIdAndItemItemCategory(
+      Long memberId, ItemCategory itemCategory);
 }

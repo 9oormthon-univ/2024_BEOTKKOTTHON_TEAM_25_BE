@@ -19,6 +19,7 @@ import com.goormthonuniv.ownearth.annotation.auth.AuthMember;
 import com.goormthonuniv.ownearth.common.BaseResponse;
 import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
+import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
@@ -28,7 +29,8 @@ import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptReque
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
@@ -197,7 +199,7 @@ public class MemberController {
     @ApiResponse(responseCode = "201", description = "성공"),
   })
   @PostMapping("/me/items/{itemId}")
-  public BaseResponse<ItemResponseDto.ItemPurchasedResponse> createMemberItem(
+  public BaseResponse<ItemPurchasedResponse> createMemberItem(
       @Parameter(hidden = true) @AuthMember Member member,
       @PathVariable(name = "itemId") Long itemId) {
     return BaseResponse.onSuccess(
@@ -234,5 +236,14 @@ public class MemberController {
   public BaseResponse<TokenResponse> reissue(
       @Parameter(hidden = true) @AuthMember Member member, @RequestBody ReissueRequest request) {
     return BaseResponse.onSuccess(memberCommandService.reissue(member, request));
+  }
+
+  @Operation(summary = "보유 아이템 조회 API", description = "보유 중인 아이템을 카테고리로 검색하여 보여줍니다")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping("/me/inventory/")
+  public BaseResponse<List<InventoryItemResponse>> getMyInventoryItem(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @RequestParam("category") ItemCategory itemCategory) {
+    return BaseResponse.onSuccess(memberQueryService.getMyInventoryItem(member, itemCategory));
   }
 }

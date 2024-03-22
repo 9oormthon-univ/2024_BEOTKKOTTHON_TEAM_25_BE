@@ -3,10 +3,12 @@ package com.goormthonuniv.ownearth.service;
 import java.time.YearMonth;
 import java.util.List;
 
+import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 
@@ -26,4 +28,6 @@ public interface MemberQueryService {
   GetEarthResponse getEarthStatus(Member member, Long memberId);
 
   List<Member> searchMembers(Member member, String keyword);
+
+  List<InventoryItemResponse> getMyInventoryItem(Member member, ItemCategory itemCategory);
 }

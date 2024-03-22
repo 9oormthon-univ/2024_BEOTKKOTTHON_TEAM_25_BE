@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemInfo;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 
@@ -42,5 +44,18 @@ public class ItemConverter {
 
   public static MemberItem toMemberItem(Member member, Item item) {
     return MemberItem.builder().member(member).item(item).build();
+  }
+
+  public static InventoryItemResponse toInventoryItemResponse(
+      Long itemId, String itemName, Boolean isUsing) {
+    return InventoryItemResponse.builder()
+        .itemId(itemId)
+        .itemName(itemName)
+        .isUsing(isUsing)
+        .build();
+  }
+
+  public static ItemInfo toItemInfo(Item item, Boolean isUsing) {
+    return ItemInfo.builder().item(item).isUsing(isUsing).build();
   }
 }

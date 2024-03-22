@@ -10,13 +10,16 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
 import com.goormthonuniv.ownearth.domain.Item;
+import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
@@ -159,5 +162,26 @@ public class MemberQueryServiceImpl implements MemberQueryService {
       throw new MemberException(GlobalErrorCode.INVALID_SEARCH_KEYWORD);
     }
     return memberRepository.findByEarthNameContainsAndIdNot(keyword, member.getId());
+  }
+
+  @Override
+  public List<InventoryItemResponse> getMyInventoryItem(Member member, ItemCategory itemCategory) {
+
+    List<InventoryItemResponse> myInventoryItems =
+        memberItemRepository
+            .findMemberItemsByMemberIdAndItemItemCategory(member.getId(), itemCategory)
+            .stream()
+            .map(
+                memberItem ->
+                    ItemConverter.toItemInfo(memberItem.getItem(), memberItem.getIsUsing()))
+            .map(
+                itemInfo ->
+                    ItemConverter.toInventoryItemResponse(
+                        itemInfo.getItem().getId(),
+                        itemInfo.getItem().getName(),
+                        itemInfo.getIsUsing()))
+            .collect(Collectors.toList());
+
+    return myInventoryItems;
   }
 }
