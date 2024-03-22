@@ -15,8 +15,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
   Optional<MemberMission> findMemberMissionByMemberAndCreatedAtBetween(
       Member member, LocalDateTime start, LocalDateTime end);
 
-  Optional<MemberMission> findByMemberAndMission_Id(Member member, Long missionId);
-
   Integer countByMemberAndCompletedAtBetween(Member member, LocalDateTime start, LocalDateTime end);
 
   List<MemberMission> findAllByMemberAndCompletedAtBetween(
