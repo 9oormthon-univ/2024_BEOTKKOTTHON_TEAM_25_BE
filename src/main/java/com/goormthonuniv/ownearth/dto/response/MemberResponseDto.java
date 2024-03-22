@@ -98,7 +98,7 @@ public class MemberResponseDto {
 
     List<Long> usingItems;
     String earthName;
-    Long createdAt;
+    Long withDays;
     List<LocalDate> completedTimes;
     Integer inventoryCount;
     Integer accumulatedPoint;
