@@ -20,12 +20,12 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendEarthStat
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
-import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.LoginMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SearchMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.SignUpMemberResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.ToggleItemUsingResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.TokenResponse;
 
 @Component
 public class MemberConverter {
@@ -51,9 +51,9 @@ public class MemberConverter {
         .build();
   }
 
-  public static LoginMemberResponse toLoginMemberResponse(
+  public static TokenResponse toLoginMemberResponse(
       Long memberId, String accessToken, String refreshToken) {
-    return LoginMemberResponse.builder()
+    return TokenResponse.builder()
         .memberId(memberId)
         .accessToken(accessToken)
         .refreshToken(refreshToken)
@@ -172,6 +172,15 @@ public class MemberConverter {
         .inventoryCount(inventoryCount)
         .earthName(earthName)
         .point(point)
+        .build();
+  }
+
+  public static TokenResponse toReissueResponse(
+      Long memberId, String newAccessToken, String newRefreshToken) {
+    return TokenResponse.builder()
+        .memberId(memberId)
+        .accessToken(newAccessToken)
+        .refreshToken(newRefreshToken)
         .build();
   }
 }
