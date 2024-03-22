@@ -17,7 +17,7 @@ public class MissionConverter {
 
   public static MissionResponse toMissionResponse(MemberMission memberMission) {
     return MissionResponse.builder()
-        .missionId(memberMission.getMission().getId())
+        .missionId(memberMission.getId())
         .content(memberMission.getMission().getContent())
         .missionCategory(memberMission.getMission().getMissionCategory())
         .isCompleted(memberMission.getIsCompleted())
