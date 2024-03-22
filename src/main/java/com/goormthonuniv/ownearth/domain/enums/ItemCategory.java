@@ -2,8 +2,9 @@ package com.goormthonuniv.ownearth.domain.enums;
 
 public enum ItemCategory {
   CLOTHING,
-  ACCESSORY,
-  PROPS,
-  FLOORING,
-  WALLPAPER
+  BACKGROUND,
+  UPPER_RIGHT,
+  LOWER_RIGHT,
+  UPPER_LEFT,
+  LOWER_LEFT
 }
