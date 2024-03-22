@@ -10,6 +10,10 @@ public class MemberRequestDto {
     String email;
     String password;
     String name;
+  }
+
+  @Getter
+  public static class SetEarthNameRequest {
     String earthName;
   }
 

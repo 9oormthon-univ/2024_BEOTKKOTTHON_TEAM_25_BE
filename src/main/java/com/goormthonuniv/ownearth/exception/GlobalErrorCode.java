@@ -60,6 +60,7 @@ public enum GlobalErrorCode {
   REQUEST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 요청입니다."),
   NOT_FRIEND(HttpStatus.BAD_REQUEST, "친구가 아닌 회원입니다."),
   ITEM_NOT_PURCHASED(HttpStatus.NOT_FOUND, "구매한 아이템이 아닙니다."),
+  ALREADY_SET_EARTHNAME(HttpStatus.BAD_REQUEST, "이미 지구 이름이 설정되어 있는 상태입니다."),
 
   // Item
   ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 아이템입니다."),

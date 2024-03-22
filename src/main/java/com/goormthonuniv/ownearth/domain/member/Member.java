@@ -53,7 +53,7 @@ public class Member extends BaseEntity {
   @Column(columnDefinition = "VARCHAR(10)")
   private SocialType socialType;
 
-  @Column(nullable = false, length = 30)
+  @Column(length = 30)
   private String earthName;
 
   @Builder.Default private Integer point = 0;
@@ -94,5 +94,9 @@ public class Member extends BaseEntity {
 
   public void setPoint(Integer point) {
     this.point = point;
+  }
+
+  public void setEarthName(String earthName) {
+    this.earthName = earthName;
   }
 }

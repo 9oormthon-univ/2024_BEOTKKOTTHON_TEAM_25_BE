@@ -28,11 +28,13 @@ import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.FriendAcceptRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
+import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SetEarthNameRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.EarthNameResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
@@ -74,6 +76,16 @@ public class MemberController {
     return BaseResponse.onSuccess(
         GlobalErrorCode.CREATED,
         MemberConverter.toSignUpMemberResponse(memberCommandService.signUpMember(request)));
+  }
+
+  @Operation(summary = "지구이름 설정 API", description = "지구 이름을 설정합니다.")
+  @ApiResponse(responseCode = "202", description = "성공")
+  @PatchMapping("/me/earth")
+  public BaseResponse<EarthNameResponse> setEarthName(
+      @Parameter(hidden = true) @AuthMember Member member,
+      @RequestBody SetEarthNameRequest request) {
+    return BaseResponse.onSuccess(
+        GlobalErrorCode.UPDATED, memberCommandService.setEarthName(member, request));
   }
 
   @Operation(summary = "로그인 API", description = "이메일, 비밀번호를 사용한 로그인을 진행합니다")
