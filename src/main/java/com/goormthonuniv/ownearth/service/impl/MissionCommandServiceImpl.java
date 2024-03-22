@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class MissionCommandServiceImpl implements MissionCommandService {
+
   private final MissionRepository missionRepository;
   private final MemberMissionRepository memberMissionRepository;
   private final OpenAiClient openAiClient;
@@ -59,7 +60,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
       Member member, Long missionId, MultipartFile missionImage) {
     MemberMission memberMission =
         memberMissionRepository
-            .findByMemberAndMission_Id(member, missionId)
+            .findById(missionId)
             .orElseThrow(() -> new MissionException(GlobalErrorCode.MISSION_NOT_FOUND));
 
     if (memberMission.getIsCompleted()) {

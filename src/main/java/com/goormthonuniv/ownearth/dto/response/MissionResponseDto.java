@@ -2,7 +2,11 @@ package com.goormthonuniv.ownearth.dto.response;
 
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public class MissionResponseDto {
 
@@ -11,6 +15,8 @@ public class MissionResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class GetOrAssignMemberMissionResponse {
+
+    Long missionId;
     String content;
   }
 
@@ -19,6 +25,7 @@ public class MissionResponseDto {
   @Getter
   @Builder
   public static class MissionResultDto {
+
     private Boolean isCompleted;
   }
 
@@ -27,6 +34,7 @@ public class MissionResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class MissionResponse {
+
     String content;
     MissionCategory missionCategory;
   }
