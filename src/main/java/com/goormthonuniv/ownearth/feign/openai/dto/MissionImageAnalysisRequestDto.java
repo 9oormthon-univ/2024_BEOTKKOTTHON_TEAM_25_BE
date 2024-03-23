@@ -1,10 +1,6 @@
 package com.goormthonuniv.ownearth.feign.openai.dto;
 
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -80,24 +76,21 @@ public class MissionImageAnalysisRequestDto {
     private String url;
   }
 
-  public static MissionImageAnalysisRequestDto from(String mission, MultipartFile image)
-      throws IOException {
-    String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-    String imageUrl = String.format("data:%s;base64,%s", image.getContentType(), base64Image);
-    return new MissionImageAnalysisRequestDto(createMessages(mission, imageUrl));
+  public static MissionImageAnalysisRequestDto from(String mission, String base64Image) {
+    return new MissionImageAnalysisRequestDto(createMessages(mission, base64Image));
   }
 
   private static List<Message> createMessages(String mission, String imageUrl) {
     return List.of(
         new Message(Role.SYSTEM, createSystemContents()),
-        new Message(Role.USER, createUserContents(mission, imageUrl)));
+        new Message(Role.USER, createContents(mission, imageUrl)));
   }
 
   private static List<Content> createSystemContents() {
     return List.of(Content.textContent(Prompt.getSystemPrompt()));
   }
 
-  private static List<Content> createUserContents(String mission, String imageUrl) {
+  private static List<Content> createContents(String mission, String imageUrl) {
     return List.of(
         Content.textContent(Prompt.getUserPrompt(mission)), Content.imageContent(imageUrl));
   }
