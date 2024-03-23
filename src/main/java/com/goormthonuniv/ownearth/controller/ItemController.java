@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/items")
-@Tag(name = "Item", description = "아이템 관련 API")
+@Tag(name = "🛒Item", description = "아이템 관련 API")
 public class ItemController {
 
   private final ItemQueryService itemQueryService;
@@ -31,7 +31,7 @@ public class ItemController {
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
-  @GetMapping("/")
+  @GetMapping("")
   public BaseResponse<List<ItemResponse>> getItemsByItemCategory(
       @Parameter(hidden = true) @AuthMember Member member,
       @RequestParam("category") ItemCategory itemCategory) {

@@ -252,7 +252,7 @@ public class MemberController {
 
   @Operation(summary = "보유 아이템 조회 API", description = "보유 중인 아이템을 카테고리로 검색하여 보여줍니다")
   @ApiResponse(responseCode = "200", description = "성공")
-  @GetMapping("/{memberId}/inventory/")
+  @GetMapping("/{memberId}/inventory")
   public BaseResponse<List<ItemResponse>> getMyInventoryItem(
       @Parameter(hidden = true) @AuthMember Member member,
       @RequestParam(value = "category", required = false) ItemCategory itemCategory,
