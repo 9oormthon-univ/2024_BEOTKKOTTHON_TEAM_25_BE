@@ -21,6 +21,7 @@ public class MissionConverter {
         .content(memberMission.getMission().getContent())
         .missionCategory(memberMission.getMission().getMissionCategory())
         .isCompleted(memberMission.getIsCompleted())
+        .imageUrl(memberMission.getImageUrl())
         .build();
   }
 

@@ -40,10 +40,9 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
     LocalDate today = LocalDate.now();
     LocalDateTime startOfDay = today.atStartOfDay();
-    LocalDateTime endOfDay = today.atTime(23, 59, 59);
 
     return memberMissionRepository
-        .findMemberMissionByMemberAndCreatedAtBetween(member, startOfDay, endOfDay)
+        .findMemberMissionByMemberAndCreatedAtBetween(member, startOfDay, LocalDateTime.now())
         .orElseGet(
             () -> {
               member.setIsMissionChangeable(true);
