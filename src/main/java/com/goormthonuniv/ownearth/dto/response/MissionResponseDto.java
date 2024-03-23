@@ -29,5 +29,6 @@ public class MissionResponseDto {
     String content;
     MissionCategory missionCategory;
     Boolean isCompleted;
+    String imageUrl;
   }
 }
