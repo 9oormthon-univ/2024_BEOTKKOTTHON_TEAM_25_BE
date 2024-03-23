@@ -61,7 +61,7 @@ public class ItemConverter {
     return memberItems.stream()
         .map(
             memberItem ->
-                ItemConverter.toItemResponse(memberItem.getItem(), memberItem.getMember(), true))
+                ItemConverter.toItemResponse(memberItem.getItem(), memberItem.getMember(), false))
         .collect(Collectors.toList());
   }
 }
