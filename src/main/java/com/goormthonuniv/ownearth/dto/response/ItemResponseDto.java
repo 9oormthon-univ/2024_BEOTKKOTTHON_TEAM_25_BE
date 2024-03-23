@@ -25,7 +25,7 @@ public class ItemResponseDto {
     Integer price;
     ItemCategory itemCategory;
     Boolean isPurchased;
-    String itemUrl;
+    String imageUrl;
   }
 
   @Getter
@@ -34,7 +34,7 @@ public class ItemResponseDto {
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class ItemPurchasedResponse {
     Long purchasedId;
-    Long itemId;
+    Long id;
   }
 
   @Getter
@@ -42,7 +42,7 @@ public class ItemResponseDto {
   @NoArgsConstructor(access = AccessLevel.PROTECTED)
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class InventoryItemResponse {
-    Long itemId;
+    Long id;
     String itemName;
     Boolean isUsing;
     String imageUrl;
@@ -56,6 +56,6 @@ public class ItemResponseDto {
     Long id;
     String name;
     ItemCategory itemCategory;
-    String itemUrl;
+    String imageUrl;
   }
 }

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.GetEarthItemResponse;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -97,7 +96,7 @@ public class MemberResponseDto {
   @AllArgsConstructor(access = AccessLevel.PROTECTED)
   public static class GetEarthResponse {
 
-    List<GetEarthItemResponse> usingItems;
+    List<Long> usingItems;
     String earthName;
     Long withDays;
     List<LocalDate> completedTimes;

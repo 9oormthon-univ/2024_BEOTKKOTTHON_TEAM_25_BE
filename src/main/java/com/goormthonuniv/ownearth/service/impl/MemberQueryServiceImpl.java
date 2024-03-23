@@ -10,15 +10,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.converter.MemberConverter;
+import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.enums.MissionCategory;
 import com.goormthonuniv.ownearth.domain.mapping.Friend;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
@@ -118,10 +117,8 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     List<MemberItem> usedMemberItems =
         memberItemRepository.findMemberItemsByMemberIdAndIsUsingTrue(memberId);
 
-    List<ItemResponseDto.GetEarthItemResponse> usingItems =
-        usedMemberItems.stream()
-            .map(memberItem -> ItemConverter.toGetEarthItemResponse(memberItem))
-            .collect(Collectors.toList());
+    List<Long> usingItems =
+        usedMemberItems.stream().map(MemberItem::getItem).map(Item::getId).toList();
 
     LocalDateTime now = LocalDateTime.now();
 

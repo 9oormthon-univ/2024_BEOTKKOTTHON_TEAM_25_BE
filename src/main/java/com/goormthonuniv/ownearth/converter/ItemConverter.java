@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.GetEarthItemResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
@@ -24,7 +23,7 @@ public class ItemConverter {
         .id(item.getId())
         .name(item.getName())
         .price(item.getPrice())
-        .itemUrl(item.getImageUrl())
+        .imageUrl(item.getImageUrl())
         .itemCategory(item.getItemCategory())
         .isPurchased(isPurchased)
         .build();
@@ -39,7 +38,7 @@ public class ItemConverter {
   public static ItemPurchasedResponse toItemPurchasedResponse(MemberItem memberItem) {
     return ItemPurchasedResponse.builder()
         .purchasedId(memberItem.getId())
-        .itemId(memberItem.getItem().getId())
+        .id(memberItem.getItem().getId())
         .build();
   }
 
@@ -49,7 +48,7 @@ public class ItemConverter {
 
   public static InventoryItemResponse toInventoryItemResponse(MemberItem memberItem) {
     return InventoryItemResponse.builder()
-        .itemId(memberItem.getItem().getId())
+        .id(memberItem.getItem().getId())
         .itemName(memberItem.getItem().getName())
         .isUsing(memberItem.getIsUsing())
         .imageUrl(memberItem.getItem().getImageUrl())
@@ -61,14 +60,5 @@ public class ItemConverter {
     return memberItems.stream()
         .map(memberItem -> ItemConverter.toInventoryItemResponse(memberItem))
         .collect(Collectors.toList());
-  }
-
-  public static GetEarthItemResponse toGetEarthItemResponse(MemberItem memberItem) {
-    return GetEarthItemResponse.builder()
-        .id(memberItem.getItem().getId())
-        .name(memberItem.getItem().getName())
-        .itemCategory(memberItem.getItem().getItemCategory())
-        .itemUrl(memberItem.getItem().getImageUrl())
-        .build();
   }
 }
