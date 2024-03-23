@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemInfo;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 
@@ -21,9 +19,10 @@ public class ItemConverter {
             .anyMatch(memberItem -> memberItem.getItem().getId().equals(item.getId()));
 
     return ItemResponse.builder()
-        .id(item.getId())
+        .itemId(item.getId())
         .name(item.getName())
         .price(item.getPrice())
+        .imageUrl(item.getImageUrl())
         .itemCategory(item.getItemCategory())
         .isPurchased(isPurchased)
         .build();
@@ -46,16 +45,11 @@ public class ItemConverter {
     return MemberItem.builder().member(member).item(item).build();
   }
 
-  public static InventoryItemResponse toInventoryItemResponse(
-      Long itemId, String itemName, Boolean isUsing) {
-    return InventoryItemResponse.builder()
-        .itemId(itemId)
-        .itemName(itemName)
-        .isUsing(isUsing)
-        .build();
-  }
-
-  public static ItemInfo toItemInfo(Item item, Boolean isUsing) {
-    return ItemInfo.builder().item(item).isUsing(isUsing).build();
+  public static List<ItemResponse> toInventoryItemResponseList(List<MemberItem> memberItems) {
+    return memberItems.stream()
+        .map(
+            memberItem ->
+                ItemConverter.toItemResponse(memberItem.getItem(), memberItem.getMember()))
+        .collect(Collectors.toList());
   }
 }
