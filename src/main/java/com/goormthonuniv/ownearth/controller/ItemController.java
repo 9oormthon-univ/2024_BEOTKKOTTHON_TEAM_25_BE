@@ -10,7 +10,6 @@ import com.goormthonuniv.ownearth.converter.ItemConverter;
 import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
-import com.goormthonuniv.ownearth.service.ItemCommandService;
 import com.goormthonuniv.ownearth.service.ItemQueryService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class ItemController {
 
   private final ItemQueryService itemQueryService;
-  private final ItemCommandService itemCommandService;
 
   @Operation(summary = "상점 아이템 목록 조회 API", description = "아이템을 카테고리별로 조회합니다")
   @ApiResponses({
