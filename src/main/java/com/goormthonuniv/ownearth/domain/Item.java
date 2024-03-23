@@ -39,6 +39,9 @@ public class Item {
   @Column(nullable = false)
   private Integer price;
 
+  @Column(nullable = false)
+  private String imageUrl;
+
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, columnDefinition = "VARCHAR(20)")
   private ItemCategory itemCategory;

@@ -25,6 +25,7 @@ public class ItemResponseDto {
     Integer price;
     ItemCategory itemCategory;
     Boolean isPurchased;
+    String itemUrl;
   }
 
   @Getter
@@ -44,5 +45,17 @@ public class ItemResponseDto {
     Long itemId;
     String itemName;
     Boolean isUsing;
+    String imageUrl;
+  }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class GetEarthItemResponse {
+    Long id;
+    String name;
+    ItemCategory itemCategory;
+    String itemUrl;
   }
 }
