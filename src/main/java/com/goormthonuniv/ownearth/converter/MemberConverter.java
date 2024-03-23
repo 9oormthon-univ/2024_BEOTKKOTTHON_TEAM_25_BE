@@ -19,6 +19,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissio
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.EarthNameResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetMyFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
@@ -179,5 +180,9 @@ public class MemberConverter {
         .accessToken(newAccessToken)
         .refreshToken(newRefreshToken)
         .build();
+  }
+
+  public static GetMyFriendResponse toGetMyFriendResponse(Long friendId, String friendName) {
+    return GetMyFriendResponse.builder().friendId(friendId).friendName(friendName).build();
   }
 }

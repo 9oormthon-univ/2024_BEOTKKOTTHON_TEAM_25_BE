@@ -10,6 +10,7 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetMyFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 
 public interface MemberQueryService {
@@ -30,4 +31,6 @@ public interface MemberQueryService {
   List<Member> searchMembers(Member member, String keyword);
 
   List<MemberItem> getInventoryItem(Member member, ItemCategory itemCategory, Long memberId);
+
+  List<GetMyFriendResponse> getMyFriend(Member member);
 }

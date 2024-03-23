@@ -145,4 +145,13 @@ public class MemberResponseDto {
     Long itemId;
     Boolean isUsing;
   }
+
+  @Getter
+  @Builder
+  @NoArgsConstructor(access = AccessLevel.PROTECTED)
+  @AllArgsConstructor(access = AccessLevel.PROTECTED)
+  public static class GetMyFriendResponse {
+    Long friendId;
+    String friendName;
+  }
 }
