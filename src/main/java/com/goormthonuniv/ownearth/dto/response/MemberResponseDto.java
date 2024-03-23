@@ -1,6 +1,5 @@
 package com.goormthonuniv.ownearth.dto.response;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -98,9 +97,10 @@ public class MemberResponseDto {
   public static class GetEarthResponse {
 
     List<ItemResponse> usingItems;
+    String name;
     String earthName;
     Long withDays;
-    List<LocalDate> completedTimes;
+    List<String> completedTimes;
     Integer inventoryCount;
     Integer accumulatedPoint;
   }
