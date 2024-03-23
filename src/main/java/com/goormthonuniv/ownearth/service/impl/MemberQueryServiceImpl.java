@@ -1,6 +1,5 @@
 package com.goormthonuniv.ownearth.service.impl;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -8,7 +7,6 @@ import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -169,15 +167,17 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     return memberRepository.findByEarthNameContainsAndIdNot(keyword, member.getId());
   }
 
-  @Override
-  public List<MemberItem> getMyInventoryItem(Member member, ItemCategory itemCategory) {
+  public List<MemberItem> getInventoryItem(
+      Member member, ItemCategory itemCategory, Long memberId) {
 
-    List<MemberItem> myInventoryItems =
-        memberItemRepository
-            .findMemberItemsByMemberAndItemItemCategory(member, itemCategory)
-            .stream()
-            .collect(Collectors.toList());
+    if (itemCategory == null) {
+      friendRepository
+          .findByToMemberIdAndFromMemberAndIsFriendTrue(memberId, member)
+          .orElseThrow(() -> new MemberException(GlobalErrorCode.FRIEND_NOT_FOUND));
 
-    return myInventoryItems;
+      return memberItemRepository.findMemberItemsByMemberId(memberId);
+    }
+
+    return memberItemRepository.findMemberItemsByMemberAndItemItemCategory(member, itemCategory);
   }
 }

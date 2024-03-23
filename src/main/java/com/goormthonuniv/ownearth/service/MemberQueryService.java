@@ -29,5 +29,5 @@ public interface MemberQueryService {
 
   List<Member> searchMembers(Member member, String keyword);
 
-  List<MemberItem> getMyInventoryItem(Member member, ItemCategory itemCategory);
+  List<MemberItem> getInventoryItem(Member member, ItemCategory itemCategory, Long memberId);
 }
