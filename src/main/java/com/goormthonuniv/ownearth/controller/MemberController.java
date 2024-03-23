@@ -37,6 +37,7 @@ import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissio
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.EarthNameResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.FriendRequestResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetMyFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetPointResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.RequestFriendSuccessResponse;
@@ -260,5 +261,13 @@ public class MemberController {
     return BaseResponse.onSuccess(
         ItemConverter.toInventoryItemResponseList(
             memberQueryService.getInventoryItem(member, itemCategory, memberId)));
+  }
+
+  @Operation(summary = "친구 목록 조회 API", description = "친구 목록을 조회합니다.")
+  @ApiResponse(responseCode = "200", description = "성공")
+  @GetMapping("/me/friends")
+  public BaseResponse<List<GetMyFriendResponse>> getMyFriend(
+      @Parameter(hidden = true) @AuthMember Member member) {
+    return BaseResponse.onSuccess(memberQueryService.getMyFriend(member));
   }
 }

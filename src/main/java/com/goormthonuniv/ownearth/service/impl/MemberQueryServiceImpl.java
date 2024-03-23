@@ -21,6 +21,7 @@ import com.goormthonuniv.ownearth.domain.mapping.MemberMission;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetEarthResponse;
+import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.GetMyFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.MonthlyMissionStatusResponse;
 import com.goormthonuniv.ownearth.exception.GlobalErrorCode;
 import com.goormthonuniv.ownearth.exception.MemberException;
@@ -167,6 +168,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     return memberRepository.findByEarthNameContainsAndIdNot(keyword, member.getId());
   }
 
+  @Override
   public List<MemberItem> getInventoryItem(
       Member member, ItemCategory itemCategory, Long memberId) {
 
@@ -179,5 +181,15 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     }
 
     return memberItemRepository.findMemberItemsByMemberAndItemItemCategory(member, itemCategory);
+  }
+
+  @Override
+  public List<GetMyFriendResponse> getMyFriend(Member member) {
+    return friendRepository.findAllByFromMemberAndIsFriendTrue(member).stream()
+        .map(
+            friend ->
+                MemberConverter.toGetMyFriendResponse(
+                    friend.getToMember().getId(), friend.getToMember().getName()))
+        .toList();
   }
 }
