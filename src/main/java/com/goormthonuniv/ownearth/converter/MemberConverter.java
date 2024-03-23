@@ -114,16 +114,18 @@ public class MemberConverter {
 
   public static GetEarthResponse toGetEarthResponse(
       List<ItemResponse> usingItems,
+      String name,
       String earthName,
       Long createdAt,
-      List<LocalDate> completedTimes,
+      List<String> completedDay,
       Integer inventoryCount,
       Integer point) {
     return GetEarthResponse.builder()
         .usingItems(usingItems)
+        .name(name)
         .earthName(earthName)
         .withDays(createdAt)
-        .completedTimes(completedTimes)
+        .completedTimes(completedDay)
         .inventoryCount(inventoryCount)
         .accumulatedPoint(point)
         .build();

@@ -1,10 +1,13 @@
 package com.goormthonuniv.ownearth.service.impl;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -131,23 +134,24 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     LocalDateTime lastSevenDayAgo = now.minusDays(7).truncatedTo(ChronoUnit.DAYS);
 
-    List<MemberMission> memberMissions =
-        memberMissionRepository.findByMemberIdAndCompletedAtBetweenAndIsCompletedTrue(
-            memberId, lastSevenDayAgo, LocalDateTime.now());
-
-    List<LocalDate> completedTimes =
-        memberMissions.stream()
+    List<String> completedDay =
+        memberMissionRepository
+            .findByMemberIdAndCompletedAtBetweenAndIsCompletedTrue(
+                memberId, lastSevenDayAgo, LocalDateTime.now())
+            .stream()
             .map(MemberMission::getCompletedAt)
-            .map(LocalDateTime::toLocalDate)
-            .collect(Collectors.toList());
+            .map(LocalDateTime::getDayOfWeek)
+            .map(DayOfWeek -> DayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREAN))
+            .toList();
 
     Integer inventoryCount = memberItemRepository.findMemberItemsByMemberId(memberId).size();
 
     return MemberConverter.toGetEarthResponse(
         usingItems,
+        who.getName(),
         who.getEarthName(),
         createdAt,
-        completedTimes,
+        completedDay,
         inventoryCount,
         who.getMonthlyPoint());
   }
