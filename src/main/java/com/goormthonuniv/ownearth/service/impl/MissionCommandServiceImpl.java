@@ -3,6 +3,7 @@ package com.goormthonuniv.ownearth.service.impl;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,14 +65,18 @@ public class MissionCommandServiceImpl implements MissionCommandService {
       throw new MissionException(GlobalErrorCode.MISSION_ALREADY_ACCOMPLISHED);
     }
 
-    Boolean isSuccess;
+    String base64Image;
     try {
-      isSuccess = confirmMissionSuccess(memberMission.getMission(), missionImage);
+      base64Image =
+          "data:"
+              + missionImage.getContentType()
+              + ";base64,"
+              + Base64.getEncoder().encodeToString(missionImage.getBytes());
     } catch (IOException e) {
       throw new MissionException(GlobalErrorCode.MISSION_IMAGE_ANALYSIS_FAILED);
     }
 
-    if (!isSuccess) {
+    if (!isMissionSuccessful(memberMission.getMission(), base64Image)) {
       return memberMission;
     }
 
@@ -81,12 +86,12 @@ public class MissionCommandServiceImpl implements MissionCommandService {
     return memberMission;
   }
 
-  private Boolean confirmMissionSuccess(Mission mission, MultipartFile image) throws IOException {
+  private Boolean isMissionSuccessful(Mission mission, String image) {
     MissionImageAnalysisResponseDto response =
         openAiClient.requestImageAnalysis(
             MissionImageAnalysisRequestDto.from(mission.getContent(), image));
 
-    return Boolean.parseBoolean(response.getChoices().get(0).getMessage().getContent());
+    return Boolean.parseBoolean(response.getAnswer());
   }
 
   public MemberMission changeMission(Member member) {
