@@ -13,7 +13,7 @@ import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 
 @Component
 public class ItemConverter {
-  private static ItemResponse toItemResponse(Item item, Member member, Boolean urlCheck) {
+  public static ItemResponse toItemResponse(Item item, Member member, Boolean urlCheck) {
     boolean isPurchased =
         member.getMemberItems().stream()
             .anyMatch(memberItem -> memberItem.getItem().getId().equals(item.getId()));
