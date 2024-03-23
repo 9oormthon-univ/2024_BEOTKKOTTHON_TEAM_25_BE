@@ -40,7 +40,10 @@ public class Item {
   private Integer price;
 
   @Column(nullable = false)
-  private String imageUrl;
+  private String earthImageUrl;
+
+  @Column(nullable = false)
+  private String storeImageUrl;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, columnDefinition = "VARCHAR(20)")
