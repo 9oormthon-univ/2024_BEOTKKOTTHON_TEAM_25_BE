@@ -256,6 +256,8 @@ public class MemberController {
   public BaseResponse<List<InventoryItemResponse>> getMyInventoryItem(
       @Parameter(hidden = true) @AuthMember Member member,
       @RequestParam("category") ItemCategory itemCategory) {
-    return BaseResponse.onSuccess(memberQueryService.getMyInventoryItem(member, itemCategory));
+    return BaseResponse.onSuccess(
+        ItemConverter.toInventoryItemResponseList(
+            memberQueryService.getMyInventoryItem(member, itemCategory)));
   }
 }

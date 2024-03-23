@@ -1,6 +1,5 @@
 package com.goormthonuniv.ownearth.dto.response;
 
-import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.enums.ItemCategory;
 
 import lombok.*;
@@ -44,15 +43,6 @@ public class ItemResponseDto {
   public static class InventoryItemResponse {
     Long itemId;
     String itemName;
-    Boolean isUsing;
-  }
-
-  @Getter
-  @Builder
-  @NoArgsConstructor(access = AccessLevel.PROTECTED)
-  @AllArgsConstructor(access = AccessLevel.PROTECTED)
-  public static class ItemInfo {
-    Item item;
     Boolean isUsing;
   }
 }

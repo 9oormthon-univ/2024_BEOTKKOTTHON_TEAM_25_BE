@@ -9,7 +9,6 @@ import com.goormthonuniv.ownearth.domain.Item;
 import com.goormthonuniv.ownearth.domain.mapping.MemberItem;
 import com.goormthonuniv.ownearth.domain.member.Member;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemInfo;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 
@@ -46,16 +45,18 @@ public class ItemConverter {
     return MemberItem.builder().member(member).item(item).build();
   }
 
-  public static InventoryItemResponse toInventoryItemResponse(
-      Long itemId, String itemName, Boolean isUsing) {
+  public static InventoryItemResponse toInventoryItemResponse(MemberItem memberItem) {
     return InventoryItemResponse.builder()
-        .itemId(itemId)
-        .itemName(itemName)
-        .isUsing(isUsing)
+        .itemId(memberItem.getItem().getId())
+        .itemName(memberItem.getItem().getName())
+        .isUsing(memberItem.getIsUsing())
         .build();
   }
 
-  public static ItemInfo toItemInfo(Item item, Boolean isUsing) {
-    return ItemInfo.builder().item(item).isUsing(isUsing).build();
+  public static List<InventoryItemResponse> toInventoryItemResponseList(
+      List<MemberItem> memberItems) {
+    return memberItems.stream()
+        .map(memberItem -> ItemConverter.toInventoryItemResponse(memberItem))
+        .collect(Collectors.toList());
   }
 }
