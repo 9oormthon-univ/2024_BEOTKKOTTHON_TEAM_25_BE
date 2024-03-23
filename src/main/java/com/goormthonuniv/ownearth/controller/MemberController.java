@@ -30,8 +30,8 @@ import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.LoginMemberReques
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.ReissueRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SetEarthNameRequest;
 import com.goormthonuniv.ownearth.dto.request.MemberRequestDto.SignUpMemberRequest;
-import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.InventoryItemResponse;
 import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemPurchasedResponse;
+import com.goormthonuniv.ownearth.dto.response.ItemResponseDto.ItemResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.AcceptFriendResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.CompletedMissionResponse;
 import com.goormthonuniv.ownearth.dto.response.MemberResponseDto.EarthNameResponse;
@@ -253,7 +253,7 @@ public class MemberController {
   @Operation(summary = "보유 아이템 조회 API", description = "보유 중인 아이템을 카테고리로 검색하여 보여줍니다")
   @ApiResponse(responseCode = "200", description = "성공")
   @GetMapping("/me/inventory/")
-  public BaseResponse<List<InventoryItemResponse>> getMyInventoryItem(
+  public BaseResponse<List<ItemResponse>> getMyInventoryItem(
       @Parameter(hidden = true) @AuthMember Member member,
       @RequestParam("category") ItemCategory itemCategory) {
     return BaseResponse.onSuccess(

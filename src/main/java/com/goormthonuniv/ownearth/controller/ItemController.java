@@ -29,7 +29,7 @@ public class ItemController {
   private final ItemQueryService itemQueryService;
   private final ItemCommandService itemCommandService;
 
-  @Operation(summary = "아이템 목록 조회 API", description = "아이템을 카테고리별로 조회합니다")
+  @Operation(summary = "상점 아이템 목록 조회 API", description = "아이템을 카테고리별로 조회합니다")
   @ApiResponses({
     @ApiResponse(responseCode = "200", description = "성공"),
   })
