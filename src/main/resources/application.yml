@@ -84,6 +84,10 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 # S3
 cloud:
   aws:
@@ -110,4 +114,4 @@ openai:
 #  auth:
 #    client: ${CLIENT_ID}
 #    redirect-uri: ${REDIRECT_URI}
----
+

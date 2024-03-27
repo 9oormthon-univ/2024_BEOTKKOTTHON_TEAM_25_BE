@@ -1,5 +1,9 @@
 package com.goormthonuniv.ownearth.service.impl;
 
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +43,10 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   private final FriendRepository friendRepository;
   private final ItemRepository itemRepository;
   private final MemberItemRepository memberItemRepository;
+  private final RedisTemplate<String, String> redisTemplate;
+
+  @Value("${jwt.refresh-token-validity}")
+  private Long refreshTokenValidityMilliseconds;
 
   @Override
   public Member signUpMember(SignUpMemberRequest request) {
@@ -172,11 +180,19 @@ public class MemberCommandServiceImpl implements MemberCommandService {
   public TokenResponse reissue(Member member, ReissueRequest request) {
     String refreshToken = request.getRefreshToken();
 
-    if (member.getRefreshToken().equals(refreshToken)) {
+    if (redisTemplate.opsForValue().get(member.getId().toString()).equals(refreshToken)) {
       Long memberId = jwtAuthProvider.parseRefreshToken(refreshToken);
 
       String newAccessToken = jwtAuthProvider.generateAccessToken(member.getId());
       String newRefreshToken = jwtAuthProvider.generateRefreshToken(member.getId());
+
+      redisTemplate
+          .opsForValue()
+          .set(
+              member.getId().toString(),
+              newAccessToken,
+              refreshTokenValidityMilliseconds,
+              TimeUnit.MILLISECONDS);
 
       return MemberConverter.toReissueResponse(memberId, newAccessToken, newRefreshToken);
     } else throw new MemberException(GlobalErrorCode.MEMBER_NOT_FOUND);
